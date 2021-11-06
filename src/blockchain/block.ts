@@ -1,12 +1,12 @@
 import { SHA256 } from 'crypto-js'
 
 export class Block {
-  timestamp: string
-  lastHash: string
-  hash: string
-  data: string
-  validator?: string
-  signature?: string
+  timestamp
+  lastHash
+  hash
+  data
+  validator?
+  signature?
 
   constructor(timestamp, lastHash, hash, data, validator, signature) {
     this.timestamp = timestamp;
@@ -37,17 +37,17 @@ export class Block {
     const lastHash = lastBlock.hash;
     hash = Block.hash(timestamp, lastHash, data);
 
-    return new this(timestamp, lastHash, hash, data, "", "");
+    return new this(timestamp, lastHash, hash, data, "gen_val", "gen_sig");
   }
 
-  static hash(timestamp,lastHash,data){
+  static hash(timestamp, lastHash, data){
     return SHA256(`${timestamp}${lastHash}${data}`).toString();
   }
 
   static blockHash(block){
     //destructuring
     const { timestamp, lastHash, data } = block;
-    return Block.hash(timestamp,lastHash,data);
+    return Block.hash(timestamp, lastHash, data);
   }
 
 }

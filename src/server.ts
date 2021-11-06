@@ -1,19 +1,22 @@
 import * as express from "express"
 import * as cors from "cors"
 
-import { blockchain } from "./blockchain/blockchain"
+import { Blockchain } from "./blockchain/blockchain"
 import { P2pServer } from "./bin/p2p-server"
 
 export const server = async () => {
   console.log("Setting up server...")
   
-  const HTTP_PORT = process.env.HTTP_PORT || 3101
+  const HTTP_PORT = process.env.HTTP_PORT || 3001
   const app = express()
   
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
   app.use(cors())
 
+  // create a new blockchain instance
+  const blockchain = new Blockchain()
+  
   const p2pserver = new P2pServer(blockchain)
   p2pserver.listen()
 
@@ -33,7 +36,8 @@ export const server = async () => {
     try {
       const block = blockchain.addBlock(req.body)
       console.log(`New block added: ${block.toString()}`)
-      res.redirect('/blocks')  
+      res.redirect('/blocks')
+      p2pserver.syncChain()
     } catch (error) {
       res.send("Something went wrong")
     }
