@@ -1,6 +1,6 @@
 import { ChainUtil } from "../chain-util"
 import { Transaction } from "./transaction"
-import { INITAL_BALANCE } from "../config"
+import { INITAL_BALANCE } from "./config"
 
 export class Wallet {
   balance: number

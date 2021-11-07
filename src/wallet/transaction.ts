@@ -1,5 +1,5 @@
 import { ChainUtil } from "../chain-util"
-import { TRANSACTION_FEE } from "./pos-config"
+import { TRANSACTION_FEE } from "./config"
 
 export class Transaction {
   id: string

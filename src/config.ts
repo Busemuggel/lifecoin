@@ -1,1 +1,0 @@
-export const INITAL_BALANCE = 100
