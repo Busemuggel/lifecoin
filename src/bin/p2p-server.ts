@@ -1,5 +1,6 @@
 import { WebSocket, WebSocketServer } from 'ws'
 import { Blockchain } from '../blockchain/blockchain'
+import { TransactionPool } from '../wallet/transaction-pool'
 
 //declare the peer to peer server port 
 const P2P_PORT = process.env.P2P_PORT || 5001
@@ -7,13 +8,20 @@ const P2P_PORT = process.env.P2P_PORT || 5001
 //list of address to connect to
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
 
+const MESSAGE_TYPE = {
+  chain: 'CHAIN',
+  transaction: 'TRANSACTION'
+}
+
 export class P2pServer{
   blockchain: Blockchain
   sockets: WebSocket[]
+  transactionPool: TransactionPool
 
-  constructor(blockchain: Blockchain) {
+  constructor(blockchain: Blockchain, transactionPool: TransactionPool) {
     this.blockchain = blockchain
     this.sockets = []
+    this.transactionPool = transactionPool
   }
 
   // create a new p2p server and connections
@@ -59,14 +67,29 @@ export class P2pServer{
     //on recieving a message execute a callback function
     socket.on('message', message => {
       const data = JSON.parse(message.toString())
-      console.log("data ", data)
-      this.blockchain.replaceChain(data)
+      // console.log("Recieved data from peer:", data)
+
+      switch (data.type) {
+        case MESSAGE_TYPE.chain:
+          this.blockchain.replaceChain(data.chain);
+          break;
+
+        case MESSAGE_TYPE.transaction:
+           if (!this.transactionPool.transactionExists(data.transaction)) {
+             this.transactionPool.addTransaction(data.transaction);
+             this.broadcastTransaction(data.transaction);
+           }
+          break;
+      }
     })
   }
 
   /* helper function to send the chain instance */
   sendChain(socket: WebSocket){
-    socket.send(JSON.stringify(this.blockchain.chain))
+    socket.send(JSON.stringify({
+      type: MESSAGE_TYPE.chain,
+      chain: this.blockchain.chain 
+     }))
   }
 
   /* utility function to sync the chain whenever a new block is added to the blockchain */
@@ -75,5 +98,19 @@ export class P2pServer{
       this.sendChain(socket)
     })
   }
+
+  broadcastTransaction(transaction){
+    this.sockets.forEach(socket =>{
+        this.sendTransaction(socket,transaction)
+    })
+}
+
+sendTransaction(socket,transaction){
+     socket.send(JSON.stringify({
+         type: MESSAGE_TYPE.transaction,
+         transaction: transaction
+       })
+   )
+ }
   
 }

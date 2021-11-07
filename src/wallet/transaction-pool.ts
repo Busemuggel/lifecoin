@@ -1,7 +1,7 @@
 import { Transaction } from "./transaction"
 
 export class TransactionPool {
-  transactions
+   transactions
 
   constructor() {
     this.transactions = []
@@ -20,5 +20,10 @@ export class TransactionPool {
 
       return transaction
     })
+  }
+
+  transactionExists(transaction) {
+    let exists = this.transactions.find(t => t.id === transaction.id)
+    return exists
   }
 }
