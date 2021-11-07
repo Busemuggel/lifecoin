@@ -1,4 +1,4 @@
-import { ChainUtil } from "./chain-util"
+import { ChainUtil } from "../chain-util"
 import { TRANSACTION_FEE } from "./pos-config"
 
 export class Transaction {

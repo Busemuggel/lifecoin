@@ -3,6 +3,8 @@ import * as cors from "cors"
 
 import { Blockchain } from "./blockchain/blockchain"
 import { P2pServer } from "./bin/p2p-server"
+import { Wallet } from "./wallet/wallet"
+import { TransactionPool } from "./wallet/transaction-pool"
 
 export const server = async () => {
   console.log("Setting up server...")
@@ -19,6 +21,13 @@ export const server = async () => {
   
   const p2pserver = new P2pServer(blockchain)
   p2pserver.listen()
+
+  // create a new wallet
+  const wallet = new Wallet(Date.now().toString());
+  // Date.now() is used create a random string for secret
+  // create a new transaction pool which will be later
+  // decentralized and synchronized using the peer to peer server
+  const transactionPool = new TransactionPool()
 
   //EXPOSED APIs
 
@@ -52,4 +61,26 @@ export const server = async () => {
     }
   })
 
+  // api to view transaction in the transaction pool
+  app.get('/transactions',(req,res)=>{
+    res.json(transactionPool.transactions)
+  })
+
+  // create transactions
+  app.post("/transact", (req, res) => {
+    try {
+      const { to, amount, type } = req.body
+      // console.log("Booooooooody: ", req.body)
+      // console.log("blockchain: ", blockchain)
+      // console.log("transactionPool: ", transactionPool)
+      // console.log("WALLET: ", wallet)
+      const transaction = wallet.createTransaction(
+        to, amount, type, blockchain, transactionPool
+      )
+      // console.log("Transactions: ", transaction)
+      res.redirect("/transactions")
+    } catch (error) {
+      res.send("Something went wrong.")
+    }
+  })
 }
