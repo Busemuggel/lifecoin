@@ -31,13 +31,23 @@ export class Block {
     return new this(`genesis time`, "----", "genesis-hash", [], "genesis-validator", "genesis-signature");
   }
 
-  static createBlock(lastBlock, data) {
-    let hash;
-    let timestamp = Date.now();
-    const lastHash = lastBlock.hash;
-    hash = Block.hash(timestamp, lastHash, data);
+  static createBlock(lastBlock, data, wallet) {
+    let hash
+    let timestamp = Date.now()
+    const lastHash = lastBlock.hash
+    hash = Block.hash(timestamp, lastHash, data)
+    
+    // get the validators public key
+    let validator = wallet.getPublicKey()
+    
+    // Sign the block
+    let signature = this.signBlockHash(hash, wallet)
+    return new this(timestamp, lastHash, hash, data, validator, signature)
+  }
 
-    return new this(timestamp, lastHash, hash, data, "gen_val", "gen_sig");
+  /* WILL BE REWORKED SOON */
+  static signBlockHash(hash: any, wallet: any) {
+    throw new Error("Method not implemented.")
   }
 
   static hash(timestamp, lastHash, data){

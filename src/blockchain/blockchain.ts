@@ -55,4 +55,13 @@ export class Blockchain {
   getLeader() {
     return this.stakes.getMax(this.validators.list);
   }
+
+  createBlock(transactions, wallet) {
+    const block = Block.createBlock(
+      this.chain[this.chain.length - 1],
+      transactions,
+      wallet
+    )
+    return block;
+  }
 }
