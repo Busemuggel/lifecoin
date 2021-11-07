@@ -1,9 +1,13 @@
 import { Account } from "./account"
 import { Block } from "./block"
+import { Stake } from "./stake"
+import { Validators } from "./validator"
 
 export class Blockchain {
   chain = [Block.genesis()]
   accounts: Account
+  stakes: Stake
+  validators: Validators
 
   constructor() {
     this.chain
@@ -46,5 +50,9 @@ export class Blockchain {
 
   getBalance(publicKey) {
     return this.accounts.getBalance(publicKey)
+  }
+
+  getLeader() {
+    return this.stakes.getMax(this.validators.list);
   }
 }
