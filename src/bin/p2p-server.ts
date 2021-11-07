@@ -1,6 +1,7 @@
 import { WebSocket, WebSocketServer } from 'ws'
 import { Blockchain } from '../blockchain/blockchain'
 import { TransactionPool } from '../wallet/transaction-pool'
+import { Wallet } from '../wallet/wallet'
 
 //declare the peer to peer server port 
 const P2P_PORT = process.env.P2P_PORT || 5001
@@ -17,11 +18,13 @@ export class P2pServer{
   blockchain: Blockchain
   sockets: WebSocket[]
   transactionPool: TransactionPool
+  wallet: Wallet
 
-  constructor(blockchain: Blockchain, transactionPool: TransactionPool) {
+  constructor(blockchain: Blockchain, transactionPool: TransactionPool, wallet: Wallet) {
     this.blockchain = blockchain
     this.sockets = []
     this.transactionPool = transactionPool
+    this.wallet = wallet
   }
 
   // create a new p2p server and connections
@@ -76,8 +79,13 @@ export class P2pServer{
 
         case MESSAGE_TYPE.transaction:
            if (!this.transactionPool.transactionExists(data.transaction)) {
-             this.transactionPool.addTransaction(data.transaction)
+             let thresholdReached = this.transactionPool.addTransaction(data.transaction)
              this.broadcastTransaction(data.transaction)
+             if (thresholdReached) {
+              if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
+                console.log("I am the leader")
+              }
+            }
            }
           break
       }

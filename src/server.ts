@@ -25,7 +25,7 @@ export const server = async () => {
 
   // create a new blockchain instance
   const blockchain = new Blockchain()
-  const p2pserver = new P2pServer(blockchain, transactionPool)
+  const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
   p2pserver.listen()
 
   //EXPOSED APIs
