@@ -71,15 +71,15 @@ export class P2pServer{
 
       switch (data.type) {
         case MESSAGE_TYPE.chain:
-          this.blockchain.replaceChain(data.chain);
-          break;
+          this.blockchain.replaceChain(data.chain)
+          break
 
         case MESSAGE_TYPE.transaction:
            if (!this.transactionPool.transactionExists(data.transaction)) {
-             this.transactionPool.addTransaction(data.transaction);
-             this.broadcastTransaction(data.transaction);
+             this.transactionPool.addTransaction(data.transaction)
+             this.broadcastTransaction(data.transaction)
            }
-          break;
+          break
       }
     })
   }
