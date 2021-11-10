@@ -4,5 +4,5 @@
   ],
   "ext": "ts",
   "ignore": [],
-  "exec": "ts-node src/bin/app.ts"
+  "exec": "ts-node src/server/app.ts"
 }

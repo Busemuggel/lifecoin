@@ -1,10 +1,10 @@
 import * as express from "express"
 import * as cors from "cors"
 
-import { Blockchain } from "./blockchain/blockchain"
-import { P2pServer } from "./bin/p2p-server"
-import { Wallet } from "./wallet/wallet"
-import { TransactionPool } from "./wallet/transaction-pool"
+import { Blockchain } from "../blockchain/blockchain"
+import { P2pServer } from "./p2p-server"
+import { Wallet } from "../wallet/wallet"
+import { TransactionPool } from "../wallet/transaction-pool"
 
 export const server = async () => {
   console.log("Setting up server...")
