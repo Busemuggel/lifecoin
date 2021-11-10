@@ -1,4 +1,4 @@
-import { TRANSACTION_THRESHOLD } from "./config";
+import { TRANSACTION_THRESHOLD } from "./config"
 import { Transaction } from "./transaction"
 
 export class TransactionPool {
@@ -9,11 +9,11 @@ export class TransactionPool {
   }
 
   addTransaction(transaction) {
-    this.transactions.push(transaction);
+    this.transactions.push(transaction)
     if (this.transactions.length >= TRANSACTION_THRESHOLD) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 
@@ -23,7 +23,6 @@ export class TransactionPool {
         console.log(`Invalid signature from ${transaction.data.from}`)
         return
       }
-
       return transaction
     })
   }
@@ -31,5 +30,9 @@ export class TransactionPool {
   transactionExists(transaction) {
     let exists = this.transactions.find(t => t.id === transaction.id)
     return exists
+  }
+
+  clear() {
+    this.transactions = []
   }
 }

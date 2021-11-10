@@ -1,11 +1,12 @@
 import { ChainUtil } from "../chain-util"
 import { Transaction } from "./transaction"
 import { INITAL_BALANCE } from "./config"
+import { Blockchain } from "../blockchain/blockchain"
 
 export class Wallet {
   balance: number
   keyPair
-  publicKey
+  publicKey: string
 
   constructor(secret) {
     this.balance = 100 // INITAL_BALANCE
@@ -15,7 +16,7 @@ export class Wallet {
 
   toString() {
     return `Wallet - 
-      publicKey: ${this.publicKey.toString()}
+      publicKey: ${this.publicKey}
       balance  : ${this.balance}`
   }
 
@@ -23,8 +24,9 @@ export class Wallet {
     return this.keyPair.sign(dataHash).toHex()
   }
 
-  createTransaction(to, amount, type, blockchain, transactionPool) {
+  createTransaction(to, amount, type, blockchain: Blockchain, transactionPool) {
     this.balance = this.getBalance(blockchain)
+    console.log("this.balance in wallet createTransaction: ", this.balance)
     if (amount > this.balance) {
       console.log(
         `Amount: ${amount} exceeds the current balance: ${this.balance}`
@@ -36,7 +38,7 @@ export class Wallet {
     return transaction
   }
 
-  getBalance(blockchain) {
+  getBalance(blockchain: Blockchain) {
     return blockchain.getBalance(this.publicKey)
   }
 

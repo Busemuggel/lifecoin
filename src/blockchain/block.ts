@@ -32,6 +32,10 @@ export class Block {
   }
 
   static createBlock(lastBlock, data, wallet) {
+    console.log("LOG-INFO:1", lastBlock)
+    console.log("LOG-INFO:2", data)
+    console.log("LOG-INFO:3", wallet.balance)
+    console.log("LOG-INFO:3.2", wallet.publicKey)
     let hash
     let timestamp = Date.now()
     const lastHash = lastBlock.hash
@@ -39,15 +43,18 @@ export class Block {
     
     // get the validators public key
     let validator = wallet.getPublicKey()
+    console.log("LOG-INFO:4: ", validator)
     
     // Sign the block
     let signature = this.signBlockHash(hash, wallet)
+    console.log("LOG-INFO:5")
     return new this(timestamp, lastHash, hash, data, validator, signature)
   }
 
   /* WILL BE REWORKED SOON */
   static signBlockHash(hash: any, wallet: any) {
-    throw new Error("Method not implemented.")
+    console.log("LOG-INF0 4.1: in signBlockhash")
+    return
   }
 
   static hash(timestamp, lastHash, data){

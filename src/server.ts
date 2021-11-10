@@ -18,13 +18,13 @@ export const server = async () => {
   
   // create a new wallet
   const wallet = new Wallet(Date.now().toString());
+  const blockchain = new Blockchain(wallet)
   // Date.now() is used create a random string for secret
   // create a new transaction pool which will be later
   // decentralized and synchronized using the peer to peer server
   const transactionPool = new TransactionPool()
 
   // create a new blockchain instance
-  const blockchain = new Blockchain()
   const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
   p2pserver.listen()
 
@@ -74,12 +74,10 @@ export const server = async () => {
   app.post("/transact", (req, res) => {
     try {
       const { to, amount, type } = req.body
-      // console.log("blockchain: ", blockchain)
-      // console.log("transactionPool: ", transactionPool)
-      // console.log("WALLET: ", wallet.balance)
+      console.log("blockchain: ", blockchain)
       const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
-      // console.log("Transactions: ", transaction)
-      p2pserver.broadcastTransaction(transaction);
+      console.log("Transactions: ", transaction)
+      p2pserver.broadcastTransaction(transaction)
       res.redirect("/transactions")
     } catch (error) {
       // res.send("Something went wrong.")

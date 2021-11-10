@@ -15,6 +15,7 @@ export class Transaction {
   }
 
   static newTransaction(senderWallet, to, amount, type) {
+    console.log("senderwallet balance: ", senderWallet.balance)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
       console.log(`Not enough balance`)
       return

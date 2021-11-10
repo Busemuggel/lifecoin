@@ -20,8 +20,8 @@ export class ChainUtil {
     return SHA256(JSON.stringify(data)).toString();
   }
 
-  static verifySignature(publicKey,signature,dataHash){
-    return ec.keyFromPublic(publicKey).verify(dataHash,signature);
+  static verifySignature(publicKey, signature, dataHash){
+    return ec.keyFromPublic(publicKey).verify(dataHash, signature);
   }
   
 }

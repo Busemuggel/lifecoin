@@ -10,6 +10,7 @@ const P2P_PORT = process.env.P2P_PORT || 5001
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
 
 const MESSAGE_TYPE = {
+  block: "BLOCK",
   chain: 'CHAIN',
   transaction: 'TRANSACTION'
 }
@@ -66,7 +67,7 @@ export class P2pServer{
     })
   }
 
-  messageHandler(socket: WebSocket){
+  messageHandler(socket: WebSocket) {
     //on recieving a message execute a callback function
     socket.on('message', message => {
       const data = JSON.parse(message.toString())
@@ -83,10 +84,22 @@ export class P2pServer{
              this.broadcastTransaction(data.transaction)
              if (thresholdReached) {
               if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
-                console.log("I am the leader")
+                console.log("Creating block aaaaa")
+                let block = this.blockchain.createBlock(
+                this.transactionPool.transactions,
+                this.wallet
+                )
+                this.broadcastBlock(block)
               }
             }
            }
+          break
+
+        case MESSAGE_TYPE.block:
+          console.log("daaaaaaaaaaa")
+          if (this.blockchain.isValidBlock(data.block)) {
+            this.broadcastBlock(data.block)
+          }
           break
       }
     })
@@ -107,18 +120,34 @@ export class P2pServer{
     })
   }
 
-  broadcastTransaction(transaction){
-    this.sockets.forEach(socket =>{
+  broadcastTransaction(transaction) {
+    if (transaction !== undefined) {
+      this.sockets.forEach(socket =>{
         this.sendTransaction(socket,transaction)
-    })
-}
+      })
+    }
+  }
 
-sendTransaction(socket,transaction){
+  sendTransaction(socket, transaction){
      socket.send(JSON.stringify({
-         type: MESSAGE_TYPE.transaction,
-         transaction: transaction
-       })
-   )
- }
+        type: MESSAGE_TYPE.transaction,
+        transaction: transaction
+      })
+   )}
+
+   broadcastBlock(block) {
+    this.sockets.forEach(socket => {
+      this.sendBlock(socket, block)
+    })
+  }
+
+  sendBlock(socket, block) {
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPE.block,
+        block: block
+      })
+    )
+  }
   
 }
