@@ -26,7 +26,7 @@ export class P2pServer{
     this.wallet = wallet
   }
 
-  listen(){
+  listen() {
     const server = new WebSocketServer({ port: parseInt(`${P2P_PORT}`) })
     server.on('connection', socket => { this.connectSocket(socket) })
     this.connectToPeers()
@@ -90,7 +90,7 @@ export class P2pServer{
     socket.on("close", () => (socket.isAlive = false))
   }
 
-  sendChain(socket: WebSocket){
+  sendChain(socket: WebSocket) {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.chain,
@@ -99,7 +99,7 @@ export class P2pServer{
     )
   }
 
-  syncChain(){
+  syncChain() {
     this.sockets.forEach(socket =>{
       this.sendChain(socket)
     })
@@ -113,7 +113,7 @@ export class P2pServer{
     }
   }
 
-  sendTransaction(socket, transaction){
+  sendTransaction(socket, transaction) {
      socket.send(JSON.stringify({
         type: MESSAGE_TYPE.transaction,
         transaction: transaction

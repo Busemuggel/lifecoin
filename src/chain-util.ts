@@ -8,11 +8,11 @@ export class ChainUtil {
     return eddsa.keyFromSecret(secret)
   }
 
-  static id(){
+  static id() {
     return uuidv1()
   }
 
-  static hash(data){
+  static hash(data) {
     return SHA256(JSON.stringify(data)).toString()
   }
 
