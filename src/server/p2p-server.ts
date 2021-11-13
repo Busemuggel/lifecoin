@@ -3,10 +3,7 @@ import { Blockchain } from '../blockchain/blockchain'
 import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
 
-//declare the peer to peer server port 
 const P2P_PORT = process.env.P2P_PORT || 5000
-
-//list of address to connect to
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
 
 const MESSAGE_TYPE = {
@@ -65,6 +62,7 @@ export class P2pServer{
           if (!this.transactionPool.transactionExists(data.transaction)) {
             thresholdReached = this.transactionPool.addTransaction(data.transaction)
             this.broadcastTransaction(data.transaction)
+            console.log(thresholdReached);
           }
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {

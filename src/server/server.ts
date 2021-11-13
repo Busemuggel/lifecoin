@@ -5,7 +5,6 @@ import { Blockchain } from "../blockchain/blockchain"
 import { P2pServer } from "./p2p-server"
 import { Wallet } from "../wallet/wallet"
 import { TransactionPool } from "../wallet/transaction-pool"
-import { TRANSACTION_THRESHOLD } from "../config"
 
 export const server = async () => {
   console.log("Setting up server...")

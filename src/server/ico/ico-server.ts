@@ -21,7 +21,6 @@ export const icoServer = async () => {
   const transactionPool = new TransactionPool()
   const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
 
-  //EXPOSED APIs
   app.get("/ico/transactions", (req, res) => {
     res.json(transactionPool.transactions)
   })

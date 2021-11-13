@@ -11,12 +11,12 @@ export class Block {
   signature?
 
   constructor(timestamp, lastHash, hash, data, validator, signature) {
-    this.timestamp = timestamp;
-    this.lastHash = lastHash;
-    this.hash = hash;
-    this.data = data;
-    this.validator = validator;
-    this.signature = signature;
+    this.timestamp = timestamp
+    this.lastHash = lastHash
+    this.hash = hash
+    this.data = data
+    this.validator = validator
+    this.signature = signature
   }
 
   toString() {
@@ -26,11 +26,11 @@ export class Block {
       Hash      : ${this.hash}
       Data      : ${this.data}
       Validator : ${this.validator}
-      Signature : ${this.signature}`;
+      Signature : ${this.signature}`
   }
 
   static genesis() {
-    return new this(`genesis time`, "----", "genesis-hash", [], "genesis-validator", "genesis-signature");
+    return new this(`genesis time`, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
 
   static createBlock(lastBlock, data, wallet: Wallet): Block {
@@ -39,16 +39,13 @@ export class Block {
     const lastHash = lastBlock.hash
     hash = Block.hash(timestamp, lastHash, data)
     
-    // get the validators public key
-    let validator = wallet.getPublicKey()
-    
-    // Sign the block
-    let signature = this.signBlockHash(hash, wallet)
+    const validator = wallet.getPublicKey()
+    const signature = this.signBlockHash(hash, wallet)
     return new this(timestamp, lastHash, hash, data, validator, signature)
   }
   
   static hash(timestamp, lastHash, data) {
-    return SHA256(`${timestamp}${lastHash}${data}`).toString();
+    return SHA256(`${timestamp}${lastHash}${data}`).toString()
   }
   
   static blockHash(block) {
