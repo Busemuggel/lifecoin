@@ -3,8 +3,12 @@ export class Account {
   balance
 
   constructor() {
-    this.addresses = []
-    this.balance = {}
+    this.addresses = [
+      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
+    ]
+    this.balance = {
+      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": 1000
+    }
   }
 
   initialize(address) {
@@ -30,8 +34,6 @@ export class Account {
   }
 
   getBalance(address) {
-    console.log("in account getBalance + address: ", address)
-    console.log("this.balance: ", this.balance)
     this.initialize(address)
     return this.balance[address]
   }

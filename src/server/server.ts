@@ -5,6 +5,7 @@ import { Blockchain } from "../blockchain/blockchain"
 import { P2pServer } from "./p2p-server"
 import { Wallet } from "../wallet/wallet"
 import { TransactionPool } from "../wallet/transaction-pool"
+import { TRANSACTION_THRESHOLD } from "../config"
 
 export const server = async () => {
   console.log("Setting up server...")
@@ -16,21 +17,16 @@ export const server = async () => {
   app.use(express.json())
   app.use(cors())
   
-  // create a new wallet
-  const wallet = new Wallet(Date.now().toString());
-  const blockchain = new Blockchain(wallet)
-  // Date.now() is used create a random string for secret
+  const blockchain = new Blockchain()
+  const wallet = new Wallet(Date.now().toString())
+
+  console.log("Wallet Key: ", wallet.publicKey)
+
   // create a new transaction pool which will be later
   // decentralized and synchronized using the peer to peer server
   const transactionPool = new TransactionPool()
-
-  // create a new blockchain instance
   const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
-  p2pserver.listen()
 
-  //EXPOSED APIs
-
-  //api to get the blocks
   app.get('/blocks',(req,res)=>{
     try {
       res.json(blockchain.chain)
@@ -39,20 +35,44 @@ export const server = async () => {
     }
   })
 
-  //api to add blocks
-  app.post('/mine',(req,res)=>{
+  app.get("/transactions", (req, res) => {
+    res.json(transactionPool.transactions)
+  })
+  
+  app.post("/transact", (req, res) => {
+
+    // case type.fee type.transaction type.stake
     try {
-      const block = blockchain.addBlock(req.body)
-      console.log(`New block added: ${block.toString()}`)
-      res.redirect('/blocks')
-      p2pserver.syncChain()
+      const { to, amount, type } = req.body
+      console.log("server.ts app post /ico/transact -> blockchain: ", blockchain.validators)
+      const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
+      p2pserver.broadcastTransaction(transaction)
+      
+   //   if (transactionPool.transactions.length >= TRANSACTION_THRESHOLD) {
+  //      let block = blockchain.createBlock(transactionPool.transactions, wallet)
+  //      p2pserver.broadcastBlock(block)
+  //    }
+
+      res.redirect("/transactions")
     } catch (error) {
-      res.send("Something went wrong")
+      res.send("Something went wrong.")
     }
   })
-
-  // app server configurations
-  app.listen(HTTP_PORT,()=>{
+  
+  app.get("/bootstrap", (req, res) => {
+    // p2pserver.bootstrapSystem() -> this api doesnt work right now
+    res.json({ message: "System bootstraped" })
+  })
+  
+  app.get("/public-key", (req, res) => {
+    res.json({ publicKey: wallet.publicKey })
+  })
+  
+  app.get("/balance", (req, res) => {
+    res.json({ balance: blockchain.getBalance(wallet.publicKey) })
+  })
+  
+  app.listen(HTTP_PORT, () => {
     try {
       console.log(`listening on port ${HTTP_PORT}`)
     } catch (error) {
@@ -60,28 +80,5 @@ export const server = async () => {
     }
   })
 
-  // api to view transaction in the transaction pool
-  app.get('/transactions',(req,res) => {
-    try {
-      const result = transactionPool.transactions
-      res.send(result)
-    } catch (error) {
-      console.log(error) 
-    }
-  })
-
-  // create transactions
-  app.post("/transact", (req, res) => {
-    try {
-      const { to, amount, type } = req.body
-      console.log("blockchain: ", blockchain)
-      const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
-      console.log("Transactions: ", transaction)
-      p2pserver.broadcastTransaction(transaction)
-      res.redirect("/transactions")
-    } catch (error) {
-      // res.send("Something went wrong.")
-      res.send(error)
-    }
-  })
+  p2pserver.listen()
 }

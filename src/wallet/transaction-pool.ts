@@ -1,4 +1,4 @@
-import { TRANSACTION_THRESHOLD } from "./config"
+import { TRANSACTION_THRESHOLD } from "../config"
 import { Transaction } from "./transaction"
 
 export class TransactionPool {
@@ -6,6 +6,15 @@ export class TransactionPool {
 
   constructor() {
     this.transactions = []
+  }
+
+  thresholdReached() {
+    console.log("THRESHHOLD: ", this.transactions.length)
+    if (this.transactions.length >= TRANSACTION_THRESHOLD) {
+      return true
+    } else {
+      return false
+    }
   }
 
   addTransaction(transaction) {

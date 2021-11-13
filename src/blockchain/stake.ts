@@ -6,8 +6,12 @@ export class Stake {
   blockchain: Blockchain
 
   constructor() {
-    this.addresses = []
-    this.balance = {}
+    this.addresses = [
+      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
+    ]
+    this.balance = {
+      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": 0
+    }
   }
 
   initialize(address) {
@@ -22,7 +26,7 @@ export class Stake {
     this.balance[from] += amount
   }
 
-  getStake(address) {
+  getBalance(address) {
     this.initialize(address)
     return this.balance[address]
   }
@@ -31,7 +35,7 @@ export class Stake {
     let balance = -1
     let leader = undefined
     addresses.forEach(address => {
-      if (this.blockchain.getBalance(address) > balance) {
+      if (this.getBalance(address) > balance) {
         leader = address
       }
     })

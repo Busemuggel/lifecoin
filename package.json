@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=development && nodemon --config \"./nodemon.json\"/",
-    "start-normal": "tsc && node app/bin/app.js",
+    "start-normal": "tsc && node app/server/app.js",
+    "ico": "tsc && node app/server/ico/ico.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

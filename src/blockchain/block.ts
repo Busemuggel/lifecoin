@@ -1,4 +1,6 @@
 import { SHA256 } from "crypto-js"
+import { ChainUtil } from "../chain-util"
+import { Wallet } from "../wallet/wallet"
 
 export class Block {
   timestamp
@@ -31,11 +33,7 @@ export class Block {
     return new this(`genesis time`, "----", "genesis-hash", [], "genesis-validator", "genesis-signature");
   }
 
-  static createBlock(lastBlock, data, wallet) {
-    console.log("LOG-INFO:1", lastBlock)
-    console.log("LOG-INFO:2", data)
-    console.log("LOG-INFO:3", wallet.balance)
-    console.log("LOG-INFO:3.2", wallet.publicKey)
+  static createBlock(lastBlock, data, wallet: Wallet): Block {
     let hash
     let timestamp = Date.now()
     const lastHash = lastBlock.hash
@@ -43,28 +41,35 @@ export class Block {
     
     // get the validators public key
     let validator = wallet.getPublicKey()
-    console.log("LOG-INFO:4: ", validator)
     
     // Sign the block
     let signature = this.signBlockHash(hash, wallet)
-    console.log("LOG-INFO:5")
     return new this(timestamp, lastHash, hash, data, validator, signature)
   }
-
-  /* WILL BE REWORKED SOON */
-  static signBlockHash(hash: any, wallet: any) {
-    console.log("LOG-INF0 4.1: in signBlockhash")
-    return
-  }
-
-  static hash(timestamp, lastHash, data){
+  
+  static hash(timestamp, lastHash, data) {
     return SHA256(`${timestamp}${lastHash}${data}`).toString();
   }
+  
+  static blockHash(block) {
+    const { timestamp, lastHash, data } = block
+    return Block.hash(timestamp, lastHash, data)
+  }
+  
+  static signBlockHash(hash: any, wallet: Wallet) {
+    return wallet.sign(hash)
+  }
 
-  static blockHash(block){
-    //destructuring
-    const { timestamp, lastHash, data } = block;
-    return Block.hash(timestamp, lastHash, data);
+  static verifyBlock(block) {
+    return ChainUtil.verifySignature(
+      block.validator,
+      block.signature,
+      Block.hash(block.timestamp, block.lastHash, block.data)
+    )
+  }
+
+  static verifyLeader(block, leader) {
+    return block.validator == leader ? true : false
   }
 
 }

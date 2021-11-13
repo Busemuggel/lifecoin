@@ -1,3 +1,4 @@
+import { FIRST_LEADER } from "../config"
 import { Wallet } from "../wallet/wallet"
 import { Account } from "./account"
 import { Block } from "./block"
@@ -11,24 +12,30 @@ const TRANSACTION_TYPE = {
 }
 
 export class Blockchain {
-  chain = [Block.genesis()]
-  accounts: Account = new Account() //Warning: check if account instance is needed
+  chain
   stakes: Stake
+  accounts: Account
   validators: Validators
-  wallet: Wallet
 
-  constructor(wallet: Wallet) {
-    this.chain
-    this.wallet = wallet
+  constructor() {
+    this.chain = [Block.genesis()]
+    this.stakes = new Stake()
+    this.accounts = new Account()
+    this.validators = new Validators()
   }
 
-  public addBlock(data) {
-    console.log("in addblock: ", data)
-    const block = Block.createBlock(this.chain[this.chain.length-1], data, this.wallet)
-    console.log("in addblock after createBlock: ")
+  public addBlock(data: Block) {
+    const block = Block.createBlock(this.chain[this.chain.length-1], data, new Wallet(FIRST_LEADER))
     this.chain.push(block)
-    console.log("affter chain push: ")
-    
+    return block
+  }
+  
+  createBlock(transactions, wallet: Wallet) {
+    const block = Block.createBlock(
+      this.chain[this.chain.length - 1],
+      transactions,
+      wallet
+    )
     return block
   }
 
@@ -38,8 +45,10 @@ export class Blockchain {
       for(let i = 1; i < chain.length; i++) {
         const block = chain[i]
         const lastBlock = chain[i-1]
-        if((block.lastHash !== lastBlock.hash) || (
-          block.hash !== Block.blockHash(block)))
+        if (
+          block.lastHash !== lastBlock.hash ||
+          block.hash !== Block.blockHash(block)
+        )
         return false
       }
 
@@ -55,6 +64,8 @@ export class Blockchain {
       return
     }
     console.log("Replacing the current chain with new chain")
+    this.resetState()
+    this.executeChain(newChain)
     this.chain = newChain
   }
 
@@ -63,21 +74,24 @@ export class Blockchain {
   }
 
   getLeader() {
-    return this.stakes.getMax(this.validators.list);
+    return this.stakes.getMax(this.validators.list)
   }
 
-  createBlock(transactions, wallet) {
-    const block = Block.createBlock(
-      this.chain[this.chain.length - 1],
-      transactions,
-      wallet
-    )
-    return block;
+  initialize(address) {
+    console.log("in blockchain initialize")
+    this.accounts.initialize(address)
+    this.stakes.initialize(address)
   }
 
-  isValidBlock(block) {
-    console.log("in isValidBlock")
+  isValidBlock(block: Block) {
     const lastBlock = this.chain[this.chain.length - 1]
+    console.log("schau dir das mal an")
+    console.log(block.lastHash, lastBlock.hash)
+    console.log("BLOCK VS LASTBLOCK: ", block.lastHash === lastBlock.hash) // UNTERSUCHEN
+    console.log("jesus christ: ", block.hash === Block.blockHash(block))
+    console.log("Block.verifyBlock(block): ", Block.verifyBlock(block))
+    console.log("Block.verifyLeader(block, this.getLeader()): ", Block.verifyLeader(block, this.getLeader()))
+    console.log("MY LAST MESSAGEEEEEEEEEE before addblock!")
     /**
      * check hash
      * check last hash
@@ -86,12 +100,13 @@ export class Blockchain {
      */
     if (
       block.lastHash === lastBlock.hash &&
-      block.hash === Block.blockHash(block) // &&
-      // Block.verifyBlock(block) &&
-      // Block.verifyLeader(block, this.getLeader())
+      block.hash === Block.blockHash(block) &&
+      Block.verifyBlock(block) &&
+      Block.verifyLeader(block, this.getLeader())
     ) {
-      console.log("block valid")
       this.addBlock(block)
+      console.log("block valid")
+      this.executeTransactions(block)
       return true
     } else {
       return false
@@ -100,12 +115,16 @@ export class Blockchain {
 
   executeTransactions(block) {
     block.data.forEach(transaction => {
+      console.log("LOG_X-2 - transaction")
       switch (transaction.type) {
         case TRANSACTION_TYPE.transaction:
+          console.log("TRANSACTION!!!!!!!!!!!!!!!!")
           this.accounts.update(transaction)
           this.accounts.transferFee(block, transaction)
+
           break
-        case TRANSACTION_TYPE.stake:
+          case TRANSACTION_TYPE.stake:
+          console.log("STAKING????????????????????")
           this.stakes.update(transaction)
           this.accounts.decrement(
             transaction.input.from,
@@ -115,6 +134,7 @@ export class Blockchain {
 
           break
         case TRANSACTION_TYPE.validator_fee:
+          console.log("VALIDATOR_FEE???????????????????? - LOG X-1")
           if (this.validators.update(transaction)) {
             this.accounts.decrement(
               transaction.input.from,
@@ -125,6 +145,19 @@ export class Blockchain {
           break
       }
     })
+  }
+
+  executeChain(chain) {
+    chain.forEach(block => {
+      this.executeTransactions(block)
+    })
+  }
+
+  resetState() {
+    this.chain = [Block.genesis()]
+    this.stakes = new Stake()
+    this.accounts = new Account()
+    this.validators = new Validators()
   }
 
 }

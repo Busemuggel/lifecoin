@@ -4,7 +4,7 @@ import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
 
 //declare the peer to peer server port 
-const P2P_PORT = process.env.P2P_PORT || 5001
+const P2P_PORT = process.env.P2P_PORT || 5000
 
 //list of address to connect to
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
@@ -12,7 +12,8 @@ const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
 const MESSAGE_TYPE = {
   block: "BLOCK",
   chain: 'CHAIN',
-  transaction: 'TRANSACTION'
+  transaction: 'TRANSACTION',
+  clear_transactions: "CLEAR_TRANSACTIONS"
 }
 
 export class P2pServer{
@@ -28,50 +29,31 @@ export class P2pServer{
     this.wallet = wallet
   }
 
-  // create a new p2p server and connections
-
   listen(){
-    const P2P_PORT_1 = parseInt(`${P2P_PORT}`)
-    const server = new WebSocketServer({ port: P2P_PORT_1 })
-
-    /* event listener and a callback function for any new connection
-      on any new connection the current instance will send the current chain
-      to the newly connected peer 
-    */
-    server.on('connection', socket => this.connectSocket(socket))
-
-    // to connect to the peers that we have specified
+    const server = new WebSocketServer({ port: parseInt(`${P2P_PORT}`) })
+    server.on('connection', socket => { this.connectSocket(socket) })
     this.connectToPeers()
     console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`)
   }
   
-  connectSocket(socket: WebSocket){
-    // push the socket too the socket array
+  connectSocket(socket: WebSocket) {
     this.sockets.push(socket)
-    console.log("Socket connected: ", socket.url)
-    // register a message event listener to the socket
+    console.log("Socket connected")
     this.messageHandler(socket)
-    // on new connection send the blockchain chain to the peer
     this.sendChain(socket)
   }
 
-  connectToPeers(){
-    //connect to each peer
+  connectToPeers() {
     peers.forEach((peer) => {
-      // create a socket for each peer
       const socket = new WebSocket(peer)
-      
-      // open event listner is emitted when a connection is established
-      // saving the socket in the array
       socket.on('open', () => this.connectSocket(socket))
     })
   }
 
   messageHandler(socket: WebSocket) {
-    //on recieving a message execute a callback function
     socket.on('message', message => {
       const data = JSON.parse(message.toString())
-      // console.log("Recieved data from peer:", data)
+      console.log("Recieved data from peer:", data.type)
 
       switch (data.type) {
         case MESSAGE_TYPE.chain:
@@ -79,41 +61,46 @@ export class P2pServer{
           break
 
         case MESSAGE_TYPE.transaction:
-           if (!this.transactionPool.transactionExists(data.transaction)) {
-             let thresholdReached = this.transactionPool.addTransaction(data.transaction)
-             this.broadcastTransaction(data.transaction)
-             if (thresholdReached) {
-              if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
-                console.log("Creating block aaaaa")
-                let block = this.blockchain.createBlock(
+          let thresholdReached = null
+          if (!this.transactionPool.transactionExists(data.transaction)) {
+            thresholdReached = this.transactionPool.addTransaction(data.transaction)
+            this.broadcastTransaction(data.transaction)
+          }
+          if (this.transactionPool.thresholdReached()) {
+            if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
+              console.log("Creating block with validator", this.wallet.getPublicKey())
+              let block = this.blockchain.createBlock(
                 this.transactionPool.transactions,
                 this.wallet
-                )
-                this.broadcastBlock(block)
-              }
+              )
+              this.broadcastBlock(block)
             }
-           }
+          }
           break
 
         case MESSAGE_TYPE.block:
-          console.log("daaaaaaaaaaa")
           if (this.blockchain.isValidBlock(data.block)) {
             this.broadcastBlock(data.block)
+            this.transactionPool.clear()
           }
           break
       }
     })
   }
 
-  /* helper function to send the chain instance */
-  sendChain(socket: WebSocket){
-    socket.send(JSON.stringify({
-      type: MESSAGE_TYPE.chain,
-      chain: this.blockchain.chain 
-     }))
+  closeConnectionHandler(socket) {
+    socket.on("close", () => (socket.isAlive = false))
   }
 
-  /* utility function to sync the chain whenever a new block is added to the blockchain */
+  sendChain(socket: WebSocket){
+    socket.send(
+      JSON.stringify({
+        type: MESSAGE_TYPE.chain,
+        chain: this.blockchain.chain 
+      })
+    )
+  }
+
   syncChain(){
     this.sockets.forEach(socket =>{
       this.sendChain(socket)
