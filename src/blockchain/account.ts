@@ -1,6 +1,8 @@
+type Balance = { [key: string]: number }
+
 export class Account {
-  addresses
-  balance
+  addresses: Array<string>
+  balance: Balance
 
   constructor() {
     this.addresses = [
