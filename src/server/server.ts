@@ -46,12 +46,6 @@ export const server = async () => {
       console.log("server.ts app post /ico/transact -> blockchain: ", blockchain.validators)
       const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
       p2pserver.broadcastTransaction(transaction)
-      
-   //   if (transactionPool.transactions.length >= TRANSACTION_THRESHOLD) {
-  //      let block = blockchain.createBlock(transactionPool.transactions, wallet)
-  //      p2pserver.broadcastBlock(block)
-  //    }
-
       res.redirect("/transactions")
     } catch (error) {
       res.send("Something went wrong.")

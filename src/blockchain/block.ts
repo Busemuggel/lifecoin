@@ -30,9 +30,9 @@ export class Block {
   }
 
   static genesis() {
-    return new this(`genesis time`, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
+    return new this("genesis-time", "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
-
+  
   static createBlock(lastBlock, data, wallet: Wallet): Block {
     let hash
     let timestamp = Date.now()

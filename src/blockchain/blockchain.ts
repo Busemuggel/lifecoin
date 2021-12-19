@@ -24,8 +24,12 @@ export class Blockchain {
     this.validators = new Validators()
   }
 
-  public addBlock(data: Block) {
-    const block = Block.createBlock(this.chain[this.chain.length-1], data, new Wallet(FIRST_LEADER))
+  public addBlock(data) {
+    const block = Block.createBlock(
+      this.chain[this.chain.length-1], 
+      data, 
+      new Wallet(FIRST_LEADER)
+      )
     this.chain.push(block)
     return block
   }

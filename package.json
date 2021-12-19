@@ -11,7 +11,7 @@
     "dev:2": "set HTTP_PORT=3002 & set P2P_PORT=5002 & set PEERS=ws://localhost:5001 && npm run dev",
     "dev:3": "set HTTP_PORT=3003 & set P2P_PORT=5003 & set PEERS=ws://localhost:5001,ws://localhost:5002 && npm run dev",
     "dev:ico": "set HTTP_PORT=3000 && set P2P_PORT=5000 && set PEERS=ws://localhost:5001,ws://localhost:5002,ws://localhost:5003 && npm run ico",
-    "dev:all": "(start npm run dev:1 && start npm run dev:2 && start npm run dev:3) & start npm run dev:ico",
+    "dev:all": "(((start npm run dev:1) && start npm run dev:2) && start npm run dev:3) && start npm run dev:ico",
     "normal": "tsc && node app/server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "count:lines": "git ls-files | xargs wc -l"
