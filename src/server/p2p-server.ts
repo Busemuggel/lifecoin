@@ -3,7 +3,7 @@ import { Blockchain } from '../blockchain/blockchain'
 import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
 
-const P2P_PORT = process.env.P2P_PORT || 5000
+const P2P_PORT = process.env.P2P_PORT // || 5000
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
 
 const MESSAGE_TYPE = {

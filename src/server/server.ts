@@ -9,7 +9,7 @@ import { TransactionPool } from "../wallet/transaction-pool"
 export const server = async () => {
   console.log("Setting up server...")
   
-  const HTTP_PORT = process.env.HTTP_PORT || 3001
+  const HTTP_PORT = process.env.HTTP_PORT // || 3001
   const app = express()
   
   app.use(express.urlencoded({ extended: true }))
