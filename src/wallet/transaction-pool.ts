@@ -9,7 +9,6 @@ export class TransactionPool {
   }
 
   thresholdReached() {
-    console.log("THRESHHOLD: ", this.transactions.length)
     if (this.transactions.length >= TRANSACTION_THRESHOLD) {
       return true
     } else {

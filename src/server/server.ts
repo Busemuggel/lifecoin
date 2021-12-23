@@ -43,7 +43,6 @@ export const server = async () => {
     // case type.fee type.transaction type.stake
     try {
       const { to, amount, type } = req.body
-      console.log("server.ts app post /ico/transact -> blockchain: ", blockchain.validators)
       const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
       p2pserver.broadcastTransaction(transaction)
       res.redirect("/transactions")
@@ -73,5 +72,5 @@ export const server = async () => {
     }
   })
 
-  p2pserver.listen()
+  p2pserver.listen() 
 }

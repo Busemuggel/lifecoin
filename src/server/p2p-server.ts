@@ -50,7 +50,6 @@ export class P2pServer{
   messageHandler(socket: WebSocket) {
     socket.on('message', message => {
       const data = JSON.parse(message.toString())
-      console.log("Recieved data from peer:", data.type)
 
       switch (data.type) {
         case MESSAGE_TYPE.chain:
@@ -62,15 +61,12 @@ export class P2pServer{
           if (!this.transactionPool.transactionExists(data.transaction)) {
             thresholdReached = this.transactionPool.addTransaction(data.transaction)
             this.broadcastTransaction(data.transaction)
-            console.log(thresholdReached);
           }
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
-              console.log("Creating block with validator", this.wallet.getPublicKey())
-              let block = this.blockchain.createBlock(
-                this.transactionPool.transactions,
-                this.wallet
-              )
+              let block = this.blockchain.addBlock(
+                this.transactionPool.transactions
+              ) // create block
               this.broadcastBlock(block)
             }
           }

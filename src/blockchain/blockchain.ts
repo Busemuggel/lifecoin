@@ -33,7 +33,8 @@ export class Blockchain {
     this.chain.push(block)
     return block
   }
-  
+
+  /*
   createBlock(transactions, wallet: Wallet) {
     const block = Block.createBlock(
       this.chain[this.chain.length - 1],
@@ -42,7 +43,8 @@ export class Blockchain {
     )
     return block
   }
-
+  */
+  
   isValidChain(chain) {
     if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
 
@@ -82,20 +84,12 @@ export class Blockchain {
   }
 
   initialize(address) {
-    console.log("in blockchain initialize")
     this.accounts.initialize(address)
     this.stakes.initialize(address)
   }
 
   isValidBlock(block: Block) {
     const lastBlock = this.chain[this.chain.length - 1]
-    console.log("schau dir das mal an")
-    console.log(block.lastHash, lastBlock.hash)
-    console.log("BLOCK VS LASTBLOCK: ", block.lastHash === lastBlock.hash) // UNTERSUCHEN
-    console.log("jesus christ: ", block.hash === Block.blockHash(block))
-    console.log("Block.verifyBlock(block): ", Block.verifyBlock(block))
-    console.log("Block.verifyLeader(block, this.getLeader()): ", Block.verifyLeader(block, this.getLeader()))
-    console.log("MY LAST MESSAGEEEEEEEEEE before addblock!")
     /**
      * check hash
      * check last hash
@@ -119,16 +113,13 @@ export class Blockchain {
 
   executeTransactions(block) {
     block.data.forEach(transaction => {
-      console.log("LOG_X-2 - transaction")
       switch (transaction.type) {
         case TRANSACTION_TYPE.transaction:
-          console.log("TRANSACTION!!!!!!!!!!!!!!!!")
           this.accounts.update(transaction)
           this.accounts.transferFee(block, transaction)
 
           break
           case TRANSACTION_TYPE.stake:
-          console.log("STAKING????????????????????")
           this.stakes.update(transaction)
           this.accounts.decrement(
             transaction.input.from,
@@ -138,7 +129,6 @@ export class Blockchain {
 
           break
         case TRANSACTION_TYPE.validator_fee:
-          console.log("VALIDATOR_FEE???????????????????? - LOG X-1")
           if (this.validators.update(transaction)) {
             this.accounts.decrement(
               transaction.input.from,
