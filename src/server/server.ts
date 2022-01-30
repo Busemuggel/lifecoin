@@ -39,7 +39,6 @@ export const server = async () => {
   })
   
   app.post("/transact", (req, res) => {
-
     // case type.fee type.transaction type.stake
     try {
       const { to, amount, type } = req.body
@@ -72,5 +71,5 @@ export const server = async () => {
     }
   })
 
-  p2pserver.listen() 
+  p2pserver.listen()
 }
