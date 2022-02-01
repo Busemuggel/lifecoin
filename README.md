@@ -36,7 +36,7 @@ Add prefix `/ico` before Nodes APIs for ICO's APIs
 1. Run a few nodes with different HTTP and Socket Ports. Initial they all have zero balance exept the ICO Node.
     
     ```
-    Npm Start
+    npm start
     ```  
 
 2. Open Postman and call `localhost://3000/ico/transact` with the following in the body. Note intial balance of ICO is 1000. You can change that in config.js. Get the address of the all the nodes by calling
@@ -48,5 +48,5 @@ Add prefix `/ico` before Nodes APIs for ICO's APIs
    }
    ```
 
-4. Do this 3 times, since 3 is set as the threshold for the transaction pool and can be changed in config.js. It is only when this threshold is hit, a block is generated.
-5. Once the block is generated, check the balance of those nodes that you have sent coins too. They would get some less amount because the transaction fee is set to 1 coin in config.ts
+3. Do this 3 times, since 3 is set as the threshold for the transaction pool and can be changed in `config.ts`. It is only when this threshold is hit, a block is generated.
+4. Once the block is generated, check the balance of those nodes that you have sent coins too. They would get some less amount because the transaction fee is set to 1 coin in `config.ts`.
