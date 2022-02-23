@@ -12,6 +12,7 @@
     "dev:3": "set HTTP_PORT=3003 & set P2P_PORT=5003 & set PEERS=ws://localhost:5001,ws://localhost:5002 && start npm run dev",
     "dev:ico": "set HTTP_PORT=3000 && set P2P_PORT=5000 && set PEERS=ws://localhost:5001,ws://localhost:5002,ws://localhost:5003 && start npm run ico",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .ts",
     "count:lines": "git ls-files | xargs wc -l"
   },
   "keywords": [],
@@ -35,9 +36,13 @@
     "@types/node": "^17.0.0",
     "@types/uuid": "^8.3.1",
     "@types/ws": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
     "nodemon": "^2.0.14",
     "ts-node": "^10.4.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.5.5",
+    "winston": "^3.6.0"
   }
 }

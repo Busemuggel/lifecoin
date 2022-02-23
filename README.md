@@ -50,3 +50,6 @@ Add prefix `/ico` before Nodes APIs for ICO's APIs
 
 3. Do this 3 times, since 3 is set as the threshold for the transaction pool and can be changed in `config.ts`. It is only when this threshold is hit, a block is generated.
 4. Once the block is generated, check the balance of those nodes that you have sent coins too. They would get some less amount because the transaction fee is set to 1 coin in `config.ts`.
+
+Extensions in planning:
+- Wallet-Frontend to send, stake and validate transactions.

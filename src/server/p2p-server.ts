@@ -4,7 +4,7 @@ import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
 
 const P2P_PORT = process.env.P2P_PORT // || 5000
-const peers = process.env.PEERS ? process.env.PEERS.split(',') : []
+const PEERS = process.env.PEERS ? process.env.PEERS.split(',') : []
 
 const MESSAGE_TYPE = {
   block: "BLOCK",
@@ -13,7 +13,7 @@ const MESSAGE_TYPE = {
   clear_transactions: "CLEAR_TRANSACTIONS"
 }
 
-export class P2pServer{
+export class P2pServer {
   blockchain: Blockchain
   sockets: WebSocket[]
   transactionPool: TransactionPool
@@ -41,7 +41,7 @@ export class P2pServer{
   }
 
   connectToPeers() {
-    peers.forEach((peer) => {
+    PEERS.forEach((peer) => {
       const socket = new WebSocket(peer)
       socket.on('open', () => this.connectSocket(socket))
     })
@@ -64,6 +64,7 @@ export class P2pServer{
           }
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
+              console.log("Creating Block...")
               let block = this.blockchain.addBlock(
                 this.transactionPool.transactions
               ) // create block
@@ -96,14 +97,14 @@ export class P2pServer{
   }
 
   syncChain() {
-    this.sockets.forEach(socket =>{
+    this.sockets.forEach(socket => {
       this.sendChain(socket)
     })
   }
 
   broadcastTransaction(transaction) {
     if (transaction !== undefined) {
-      this.sockets.forEach(socket =>{
+      this.sockets.forEach(socket => {
         this.sendTransaction(socket,transaction)
       })
     }
@@ -130,5 +131,4 @@ export class P2pServer{
       })
     )
   }
-  
 }

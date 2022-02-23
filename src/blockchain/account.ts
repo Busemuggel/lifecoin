@@ -41,16 +41,16 @@ export class Account {
   }
 
   update(transaction) {
-    let amount = transaction.output.amount
-    let from = transaction.input.from
-    let to = transaction.output.to
+    const amount = transaction.output.amount
+    const from = transaction.input.from
+    const to = transaction.output.to
     this.transfer(from, to, amount)
   }
 
   transferFee(block, transaction) {
-    let amount = transaction.output.fee
-    let from = transaction.input.from
-    let to = block.validator
+    const amount = transaction.output.fee
+    const from = transaction.input.from
+    const to = block.validator
     this.transfer(from, to, amount)
   }
 

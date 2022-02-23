@@ -34,10 +34,9 @@ export class Block {
   }
   
   static createBlock(lastBlock, data, wallet: Wallet): Block {
-    let hash
-    let timestamp = Date.now()
+    const timestamp = Date.now()
     const lastHash = lastBlock.hash
-    hash = Block.hash(timestamp, lastHash, data)
+    const hash = Block.hash(timestamp, lastHash, data)
     
     const validator = wallet.getPublicKey()
     const signature = this.signBlockHash(hash, wallet)

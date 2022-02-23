@@ -32,7 +32,7 @@ export class Stake {
   }
 
   getMax(addresses) {
-    let balance = -1
+    const balance = -1
     let leader = undefined
     addresses.forEach(address => {
       if (this.getBalance(address) > balance) {
@@ -43,8 +43,8 @@ export class Stake {
   }
 
   update(transaction) {
-    let amount = transaction.output.amount
-    let from = transaction.input.from
+    const amount = transaction.output.amount
+    const from = transaction.input.from
     this.addStake(from, amount)
   }
 }
