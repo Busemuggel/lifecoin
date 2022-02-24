@@ -10,7 +10,7 @@ export class Block {
   validator?
   signature?
 
-  constructor(timestamp, lastHash, hash, data, validator, signature) {
+  constructor(timestamp: any, lastHash: any, hash: any, data: any, validator: any, signature: any) {
     this.timestamp = timestamp
     this.lastHash = lastHash
     this.hash = hash
@@ -33,7 +33,7 @@ export class Block {
     return new this("genesis-time", "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
   
-  static createBlock(lastBlock, data, wallet: Wallet): Block {
+  static createBlock(lastBlock: any, data: any, wallet: Wallet): Block {
     const timestamp = Date.now()
     const lastHash = lastBlock.hash
     const hash = Block.hash(timestamp, lastHash, data)
@@ -43,11 +43,11 @@ export class Block {
     return new this(timestamp, lastHash, hash, data, validator, signature)
   }
   
-  static hash(timestamp, lastHash, data) {
+  static hash(timestamp: any, lastHash: any, data: any) {
     return SHA256(`${timestamp}${lastHash}${data}`).toString()
   }
   
-  static blockHash(block) {
+  static blockHash(block: any) {
     const { timestamp, lastHash, data } = block
     return Block.hash(timestamp, lastHash, data)
   }
@@ -56,7 +56,7 @@ export class Block {
     return wallet.sign(hash)
   }
 
-  static verifyBlock(block) {
+  static verifyBlock(block: any) {
     return ChainUtil.verifySignature(
       block.validator,
       block.signature,
@@ -64,7 +64,7 @@ export class Block {
     )
   }
 
-  static verifyLeader(block, leader) {
+  static verifyLeader(block: any, leader: any) {
     return block.validator == leader ? true : false
   }
 

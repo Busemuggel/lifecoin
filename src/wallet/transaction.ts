@@ -15,7 +15,7 @@ export class Transaction {
     this.output = null
   }
 
-  static newTransaction(senderWallet, to, amount, type) {
+  static newTransaction(senderWallet: any, to: any, amount: any, type: any) {
     console.log("SENDERWALLET: ", senderWallet.publicKey)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
       console.log(`Not enough balance`)
@@ -25,7 +25,7 @@ export class Transaction {
     return Transaction.generateTransaction(senderWallet, to, amount, type)
   }
 
-  static generateTransaction(senderWallet, to, amount, type) {
+  static generateTransaction(senderWallet: any, to: any, amount: any, type: any) {
     const transaction = new this()
     transaction.type = type
     transaction.output = {
@@ -45,7 +45,7 @@ export class Transaction {
     }
   }
 
-  static verifyTransaction(transaction) {
+  static verifyTransaction(transaction: any) {
     return ChainUtil.verifySignature(
       transaction.input.from,
       transaction.input.signature,

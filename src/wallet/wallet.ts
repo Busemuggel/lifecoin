@@ -8,7 +8,7 @@ export class Wallet {
   keyPair
   publicKey: string
 
-  constructor(secret) {
+  constructor(secret: any) {
     this.balance // INITAL_BALANCE
     this.keyPair = ChainUtil.genKeyPair(secret)
     this.publicKey = this.keyPair.getPublic("hex")
@@ -20,11 +20,11 @@ export class Wallet {
       balance  : ${this.balance}`
   }
 
-  sign(dataHash) {
+  sign(dataHash: any) {
     return this.keyPair.sign(dataHash).toHex()
   }
 
-  createTransaction(to, amount, type, blockchain: Blockchain, transactionPool: TransactionPool) {
+  createTransaction(to: any, amount: any, type: any, blockchain: Blockchain, transactionPool: TransactionPool) {
     this.balance = this.getBalance(blockchain)
     if (amount > this.balance) {
       console.log(

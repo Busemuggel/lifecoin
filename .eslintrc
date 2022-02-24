@@ -13,6 +13,10 @@
       "no-console": 1,
       "spaced-comment": 2,
       "semi": [2, "never"],
-      "indent": ["error", 2, { "SwitchCase": 1 }]
+      "indent": ["error", 2, { "SwitchCase": 1 }],
+      "max-len": ["error", {"code": 110}],
+      "space-in-parens": "error",
+      "no-multiple-empty-lines": "error",
+      "@typescript-eslint/explicit-function-return-type": ["error"]
     }
   }

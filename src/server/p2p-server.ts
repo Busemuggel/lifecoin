@@ -75,7 +75,7 @@ export class P2pServer {
           }
           break
         }
-        
+
         case MESSAGE_TYPE.block: {
           if (this.blockchain.isValidBlock(data.block)) {
             this.broadcastBlock(data.block)
@@ -87,7 +87,7 @@ export class P2pServer {
     })
   }
 
-  closeConnectionHandler(socket) {
+  closeConnectionHandler(socket: any) {
     socket.on("close", () => (socket.isAlive = false))
   }
 
@@ -106,7 +106,7 @@ export class P2pServer {
     })
   }
 
-  broadcastTransaction(transaction) {
+  broadcastTransaction(transaction: any) {
     if (transaction !== undefined) {
       this.sockets.forEach(socket => {
         this.sendTransaction(socket,transaction)
@@ -114,20 +114,20 @@ export class P2pServer {
     }
   }
 
-  sendTransaction(socket, transaction) {
+  sendTransaction(socket: any, transaction: any) {
     socket.send(JSON.stringify({
       type: MESSAGE_TYPE.transaction,
       transaction: transaction
     }))
   }
 
-  broadcastBlock(block) {
+  broadcastBlock(block: any) {
     this.sockets.forEach(socket => {
       this.sendBlock(socket, block)
     })
   }
 
-  sendBlock(socket, block) {
+  sendBlock(socket: any, block: any) {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.block,

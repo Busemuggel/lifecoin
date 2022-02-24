@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
-   
+    "noImplicitAny": true
   },
   "exclude": [
     "node_modules",
