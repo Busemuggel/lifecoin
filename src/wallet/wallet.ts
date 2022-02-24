@@ -32,7 +32,7 @@ export class Wallet {
       )
       return
     }
-    let transaction = Transaction.newTransaction(this, to, amount, type)
+    const transaction = Transaction.newTransaction(this, to, amount, type)
     transactionPool.addTransaction(transaction)
     return transaction
   }

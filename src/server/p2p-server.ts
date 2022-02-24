@@ -65,7 +65,7 @@ export class P2pServer {
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
               console.log("Creating Block...")
-              let block = this.blockchain.addBlock(
+              const block = this.blockchain.addBlock(
                 this.transactionPool.transactions
               ) // create block
               this.broadcastBlock(block)
@@ -111,13 +111,13 @@ export class P2pServer {
   }
 
   sendTransaction(socket, transaction) {
-     socket.send(JSON.stringify({
-        type: MESSAGE_TYPE.transaction,
-        transaction: transaction
-      })
-   )}
+    socket.send(JSON.stringify({
+      type: MESSAGE_TYPE.transaction,
+      transaction: transaction
+    }))
+  }
 
-   broadcastBlock(block) {
+  broadcastBlock(block) {
     this.sockets.forEach(socket => {
       this.sendBlock(socket, block)
     })

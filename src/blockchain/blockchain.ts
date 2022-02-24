@@ -29,7 +29,7 @@ export class Blockchain {
       this.chain[this.chain.length-1], 
       data, 
       new Wallet(FIRST_LEADER)
-      )
+    )
     this.chain.push(block)
     return block
   }
@@ -48,16 +48,14 @@ export class Blockchain {
   isValidChain(chain) {
     if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
 
-      for(let i = 1; i < chain.length; i++) {
-        const block = chain[i]
-        const lastBlock = chain[i-1]
-        if (
-          block.lastHash !== lastBlock.hash ||
-          block.hash !== Block.blockHash(block)
-        )
-        return false
-      }
-
+    for(let i = 1; i < chain.length; i++) {
+      const block = chain[i]
+      const lastBlock = chain[i-1]
+      if (
+        block.lastHash !== lastBlock.hash ||
+        block.hash !== Block.blockHash(block)
+      ) { return false }
+    }
     return true
   }
   
@@ -117,17 +115,17 @@ export class Blockchain {
         case TRANSACTION_TYPE.transaction:
           this.accounts.update(transaction)
           this.accounts.transferFee(block, transaction)
-
           break
-          case TRANSACTION_TYPE.stake:
+
+        case TRANSACTION_TYPE.stake:
           this.stakes.update(transaction)
           this.accounts.decrement(
             transaction.input.from,
             transaction.output.amount
           )
           this.accounts.transferFee(block, transaction)
-
           break
+
         case TRANSACTION_TYPE.validator_fee:
           if (this.validators.update(transaction)) {
             this.accounts.decrement(
