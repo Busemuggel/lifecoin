@@ -57,17 +57,18 @@ export class P2pServer {
           break
 
         case MESSAGE_TYPE.transaction:
-          let thresholdReached = null
+           let thresholdReached = null
           if (!this.transactionPool.transactionExists(data.transaction)) {
-            thresholdReached = this.transactionPool.addTransaction(data.transaction)
+             thresholdReached = this.transactionPool.addTransaction(data.transaction) // without var?
             this.broadcastTransaction(data.transaction)
           }
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
               console.log("Creating Block...")
-              const block = this.blockchain.addBlock(
-                this.transactionPool.transactions
-              ) // create block
+              const block = this.blockchain.createBlock(
+                this.transactionPool.transactions,
+                this.wallet
+              )
               this.broadcastBlock(block)
             }
           }

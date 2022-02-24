@@ -36,7 +36,7 @@ export const icoServer = async () => {
 
     p2pserver.broadcastTransaction(transaction)
     if (transactionPool.transactions.length >= TRANSACTION_THRESHOLD) {
-      const block = blockchain.addBlock(transactionPool.transactions)  // create block
+      const block = blockchain.createBlock(transactionPool.transactions, wallet)
       p2pserver.broadcastBlock(block)
     }
     res.redirect("/ico/transactions")

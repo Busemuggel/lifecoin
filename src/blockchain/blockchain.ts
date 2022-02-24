@@ -34,7 +34,6 @@ export class Blockchain {
     return block
   }
 
-  /*
   createBlock(transactions, wallet: Wallet) {
     const block = Block.createBlock(
       this.chain[this.chain.length - 1],
@@ -43,7 +42,6 @@ export class Blockchain {
     )
     return block
   }
-  */
   
   isValidChain(chain) {
     if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false

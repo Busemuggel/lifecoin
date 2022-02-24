@@ -39,7 +39,7 @@ Add prefix `/ico` before Nodes APIs for ICO's APIs
     npm start
     ```  
 
-2. Open Postman and call `localhost://3000/ico/transact` with the following in the body. Note intial balance of ICO is 1000. You can change that in config.js. Get the address of the all the nodes by calling
+2. Open Postman and call `localhost://3000/ico/transact` with the following in the body. Note intial balance of ICO is 10000. You can change that in config.js. Get the address of the all the nodes by calling
    ```json
    {
 	"to":"3ec620c7799e4ce381eb7fa0b38d2c92b2ce204fe4d3e62b7e9ce2facda7b151",

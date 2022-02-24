@@ -1,3 +1,5 @@
+import { INITAL_BALANCE } from "../config"
+
 type Balance = { [key: string]: number }
 
 export class Account {
@@ -9,7 +11,7 @@ export class Account {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
     ]
     this.balance = {
-      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": 1000
+      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
     }
   }
 
