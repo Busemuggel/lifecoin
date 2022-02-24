@@ -52,14 +52,15 @@ export class P2pServer {
       const data = JSON.parse(message.toString())
 
       switch (data.type) {
-        case MESSAGE_TYPE.chain:
+        case MESSAGE_TYPE.chain: {
           this.blockchain.replaceChain(data.chain)
           break
+        }
 
-        case MESSAGE_TYPE.transaction:
-           let thresholdReached = null
+        case MESSAGE_TYPE.transaction: {
+          let thresholdReached = null
           if (!this.transactionPool.transactionExists(data.transaction)) {
-             thresholdReached = this.transactionPool.addTransaction(data.transaction) // without var?
+            thresholdReached = this.transactionPool.addTransaction(data.transaction) // without var?
             this.broadcastTransaction(data.transaction)
           }
           if (this.transactionPool.thresholdReached()) {
@@ -73,13 +74,15 @@ export class P2pServer {
             }
           }
           break
-
-        case MESSAGE_TYPE.block:
+        }
+        
+        case MESSAGE_TYPE.block: {
           if (this.blockchain.isValidBlock(data.block)) {
             this.broadcastBlock(data.block)
             this.transactionPool.clear()
           }
           break
+        }
       }
     })
   }
