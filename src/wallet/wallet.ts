@@ -24,7 +24,7 @@ export class Wallet {
     return this.keyPair.sign(dataHash).toHex()
   }
 
-  createTransaction(to: any, amount: any, type: any, blockchain: Blockchain, transactionPool: TransactionPool) {
+  createTransaction(to: any, amount: number, type: any, blockchain: Blockchain, transactionPool: TransactionPool) {
     this.balance = this.getBalance(blockchain)
     if (amount > this.balance) {
       console.log(

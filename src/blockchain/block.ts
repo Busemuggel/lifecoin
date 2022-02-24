@@ -3,9 +3,9 @@ import { ChainUtil } from "../chain-util"
 import { Wallet } from "../wallet/wallet"
 
 export class Block {
-  timestamp
-  lastHash
-  hash
+  timestamp: any
+  lastHash: any
+  hash: any
   data
   validator?
   signature?

@@ -1,5 +1,6 @@
 import { WebSocket, WebSocketServer } from 'ws'
 import { Blockchain } from '../blockchain/blockchain'
+import { Transaction } from '../wallet/transaction'
 import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
 
@@ -106,7 +107,7 @@ export class P2pServer {
     })
   }
 
-  broadcastTransaction(transaction: any) {
+  broadcastTransaction(transaction: Transaction) {
     if (transaction !== undefined) {
       this.sockets.forEach(socket => {
         this.sendTransaction(socket,transaction)
@@ -114,7 +115,7 @@ export class P2pServer {
     }
   }
 
-  sendTransaction(socket: any, transaction: any) {
+  sendTransaction(socket: WebSocket, transaction: Transaction) {
     socket.send(JSON.stringify({
       type: MESSAGE_TYPE.transaction,
       transaction: transaction
