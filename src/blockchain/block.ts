@@ -42,9 +42,6 @@ export class Block {
   }
   
   static createBlock(lastBlock: Block, data: Transaction[], wallet: Wallet): Block {
-
-    console.log("createBlock IN BLOCK: ", data)
-
     const timestamp = Date.now()
     const lastHash = lastBlock.hash
     const hash = Block.hash(timestamp, lastHash, data)

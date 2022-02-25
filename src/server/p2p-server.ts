@@ -60,9 +60,8 @@ export class P2pServer {
         }
 
         case MESSAGE_TYPE.transaction: {
-          let thresholdReached = null
           if (!this.transactionPool.transactionExists(data.transaction)) {
-            thresholdReached = this.transactionPool.addTransaction(data.transaction) // without var?
+            this.transactionPool.addTransaction(data.transaction)
             this.broadcastTransaction(data.transaction)
           }
           if (this.transactionPool.thresholdReached()) {
