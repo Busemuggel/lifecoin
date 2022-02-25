@@ -1,12 +1,13 @@
 import { SHA256 } from "crypto-js"
 import { ChainUtil } from "../chain-util"
+import { Transaction } from "../wallet/transaction"
 import { Wallet } from "../wallet/wallet"
 
 export class Block {
   timestamp: number
   lastHash: string
   hash: string
-  data: any
+  data: Transaction[]
   validator?: string
   signature?: string
 
@@ -14,7 +15,7 @@ export class Block {
     timestamp: number, 
     lastHash: string, 
     hash: string, 
-    data: any, 
+    data: Transaction[], 
     validator: string, 
     signature: string
   ) {
@@ -40,20 +41,20 @@ export class Block {
     return new this(0, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
   
-  static createBlock(lastBlock: Block, data: any, wallet: Wallet): Block {
+  static createBlock(lastBlock: Block, data: Transaction[], wallet: Wallet): Block {
 
     console.log("createBlock IN BLOCK: ", data)
 
     const timestamp = Date.now()
     const lastHash = lastBlock.hash
     const hash = Block.hash(timestamp, lastHash, data)
-    
     const validator = wallet.getPublicKey()
     const signature = this.signBlockHash(hash, wallet)
+
     return new this(timestamp, lastHash, hash, data, validator, signature)
   }
   
-  static hash(timestamp: number, lastHash: string, data: any): string {
+  static hash(timestamp: number, lastHash: string, data: Transaction[]): string {
     return SHA256(`${timestamp}${lastHash}${data}`).toString()
   }
   

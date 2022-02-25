@@ -19,9 +19,7 @@ export class Blockchain {
     this.validators = new Validators()
   }
 
-  public addBlock(data: any): Block {
-
-    console.log("ADDBLOCK IN BLOCKCHAIN: ", data)
+  public addBlock(data: Transaction[]): Block {
     const block = Block.createBlock(
       this.chain[this.chain.length-1], 
       data, 
@@ -95,7 +93,7 @@ export class Blockchain {
       Block.verifyBlock(block) &&
       Block.verifyLeader(block, this.getLeader())
     ) {
-      this.addBlock(block)
+      this.addBlock(block.data)
       console.log("block valid")
       this.executeTransactions(block)
       return true
