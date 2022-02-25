@@ -1,4 +1,5 @@
 import { FIRST_LEADER, TRANSACTION_TYPE } from "../config"
+import { logger } from "../lib/logger/logger"
 import { Transaction } from "../wallet/transaction"
 import { Wallet } from "../wallet/wallet"
 import { Account } from "./account"
@@ -54,7 +55,10 @@ export class Blockchain {
   
   replaceChain(newChain: Array<Block>): void {
     if(newChain.length <= this.chain.length) {
-      console.log("Recieved chain is not longer than the current chain")
+      logger.log({
+        level: 'info',
+        message: `- Port ${process.env.HTTP_PORT}` + `Recieved chain is not longer than the current chain`
+      })
       return
     } else if(!this.isValidChain(newChain)) {
       console.log("Recieved chain is invalid")

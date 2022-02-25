@@ -1,84 +1,19 @@
 import * as express from "express"
 import * as cors from "cors"
-import * as winston from 'winston'
 
 import { Blockchain } from "../blockchain/blockchain"
 import { P2pServer } from "./p2p-server"
 import { Wallet } from "../wallet/wallet"
 import { TransactionPool } from "../wallet/transaction-pool"
+import { logger } from "../lib/logger/logger"
 
 export const server = async (): Promise<void> => {
-  const logLevels = {
-    levels: {
-      critical: 0,
-      error: 1,
-      warn: 2,
-      info: 3,
-      debug: 4
-    },
-    colors: {
-      critical: 'white redBG',
-      error: 'red',
-      warn: 'yellow',
-      info: 'green',
-      debug: 'magenta'
-    }
-  }
-
-  winston.addColors(logLevels.colors)
-
-  const logger = winston.createLogger({
-    level: 'info',
-    levels: logLevels.levels,
-    format: winston.format.json(),
-    defaultMeta: { service: 'lifecoin-service' },
-    transports: [
-      // - Write all logs with importance level of `critical` or less to `critical.log`
-      // new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      // - Write all logs with importance level of `info` or less to `combined.log`
-      // new winston.transports.File({ filename: 'combined.log' }),
-    ],
-  })
-
-  if (process.env.NODE_ENV !== 'production') {
-    logger.configure({level: 'debug'})
-
-    logger.add(new winston.transports.File({ filename: 'error.log', level: 'error' }))
-
-    logger.add(
-      new winston.transports.Console({
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.simple()
-        )
-      })
-    )
-  }
-
-  logger.log({
-    level: 'debug',
-    message: 'Debug says hello distributed log files!'
-  })
   logger.log({
     level: 'info',
-    message: 'Info says hello distributed log files!'
+    message: `Setting up server on port: ${process.env.HTTP_PORT}`
   })
-  logger.log({
-    level: 'warn',
-    message: 'Warn says hello distributed log files!'
-  })
-  logger.log({
-    level: 'error',
-    message: 'Error says hello distributed log files!'
-  })
-  logger.log({
-    level: 'critical',
-    message: 'Critical says hello distributed log files!'
-  })
-
-  console.log("Setting up server...")
   
-  const HTTP_PORT = process.env.HTTP_PORT // || 3001
+  const HTTP_PORT = process.env.HTTP_PORT
   const app = express()
   
   app.use(express.urlencoded({ extended: true }))
@@ -89,6 +24,11 @@ export const server = async (): Promise<void> => {
   const wallet = new Wallet(Date.now().toString())
 
   console.log("Wallet Key: ", wallet.publicKey)
+  logger.log({
+    level: 'info',
+    message: `Wallet Key: ${wallet.publicKey}`,
+    ['Port']: process.env.HTTP_PORT
+  })
 
   // create a new transaction pool which will be later
   // decentralized and synchronized using the peer to peer server
