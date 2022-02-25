@@ -1,4 +1,5 @@
 import { FIRST_LEADER, TRANSACTION_TYPE } from "../config"
+import { Transaction } from "../wallet/transaction"
 import { Wallet } from "../wallet/wallet"
 import { Account } from "./account"
 import { Block } from "./block"
@@ -6,7 +7,7 @@ import { Stake } from "./stake"
 import { Validators } from "./validator"
 
 export class Blockchain {
-  chain
+  chain: Array<Block>
   stakes: Stake
   accounts: Account
   validators: Validators
@@ -18,7 +19,9 @@ export class Blockchain {
     this.validators = new Validators()
   }
 
-  public addBlock(data): Block {
+  public addBlock(data: any): Block {
+
+    console.log("ADDBLOCK IN BLOCKCHAIN: ", data)
     const block = Block.createBlock(
       this.chain[this.chain.length-1], 
       data, 
@@ -28,7 +31,7 @@ export class Blockchain {
     return block
   }
 
-  createBlock(transactions, wallet: Wallet): Block {
+  createBlock(transactions: Transaction[], wallet: Wallet): Block {
     const block = Block.createBlock(
       this.chain[this.chain.length - 1],
       transactions,
@@ -37,7 +40,7 @@ export class Blockchain {
     return block
   }
   
-  isValidChain(chain): boolean {
+  isValidChain(chain: Array<Block>): boolean {
     if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
 
     for(let i = 1; i < chain.length; i++) {
@@ -51,7 +54,7 @@ export class Blockchain {
     return true
   }
   
-  replaceChain(newChain: any): void {
+  replaceChain(newChain: Array<Block>): void {
     if(newChain.length <= this.chain.length) {
       console.log("Recieved chain is not longer than the current chain")
       return
@@ -131,7 +134,7 @@ export class Blockchain {
     })
   }
 
-  executeChain(chain: any): void {
+  executeChain(chain: Array<Block>): void {
     chain.forEach(block => {
       this.executeTransactions(block)
     })
