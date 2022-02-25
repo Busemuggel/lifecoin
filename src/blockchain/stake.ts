@@ -1,8 +1,9 @@
+import { Balance } from "../config"
 import { Blockchain } from "./blockchain"
 
 export class Stake {
-  addresses
-  balance
+  addresses: Array<string>
+  balance: Balance
   blockchain: Blockchain
 
   constructor() {

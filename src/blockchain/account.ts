@@ -1,6 +1,4 @@
-import { INITAL_BALANCE } from "../config"
-
-type Balance = { [key: string]: number }
+import { Balance, INITAL_BALANCE } from "../config"
 
 export class Account {
   addresses: Array<string>
@@ -15,29 +13,29 @@ export class Account {
     }
   }
 
-  initialize(address: any): void {
+  initialize(address: string): void {
     if (this.balance[address] == undefined) {
       this.balance[address] = 0
       this.addresses.push(address)
     }
   }
 
-  transfer(from: any, to: any, amount: any): void {
+  transfer(from: string, to: string, amount: number): void {
     this.initialize(from)
     this.initialize(to)
     this.increment(to, amount)
     this.decrement(from, amount)
   }
 
-  increment(to, amount): void {
+  increment(to: string, amount: number): void {
     this.balance[to] += amount
   }
 
-  decrement(from, amount): void {
+  decrement(from: string, amount: number): void {
     this.balance[from] -= amount
   }
 
-  getBalance(address: any): number {
+  getBalance(address: string): number {
     this.initialize(address)
     return this.balance[address]
   }

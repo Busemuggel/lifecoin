@@ -1,15 +1,9 @@
-import { FIRST_LEADER } from "../config"
+import { FIRST_LEADER, TRANSACTION_TYPE } from "../config"
 import { Wallet } from "../wallet/wallet"
 import { Account } from "./account"
 import { Block } from "./block"
 import { Stake } from "./stake"
 import { Validators } from "./validator"
-
-const TRANSACTION_TYPE = {
-  stake: 'STAKE',
-  transaction: 'TRANSACTION',
-  validator_fee: "VALIDATOR_FEE"
-}
 
 export class Blockchain {
   chain
@@ -110,12 +104,12 @@ export class Blockchain {
   executeTransactions(block: any): void {
     block.data.forEach(transaction => {
       switch (transaction.type) {
-        case TRANSACTION_TYPE.transaction:
+        case TRANSACTION_TYPE.Transaction:
           this.accounts.update(transaction)
           this.accounts.transferFee(block, transaction)
           break
 
-        case TRANSACTION_TYPE.stake:
+        case TRANSACTION_TYPE.Stake:
           this.stakes.update(transaction)
           this.accounts.decrement(
             transaction.input.from,
@@ -124,7 +118,7 @@ export class Blockchain {
           this.accounts.transferFee(block, transaction)
           break
 
-        case TRANSACTION_TYPE.validator_fee:
+        case TRANSACTION_TYPE.Validator_fee:
           if (this.validators.update(transaction)) {
             this.accounts.decrement(
               transaction.input.from,
