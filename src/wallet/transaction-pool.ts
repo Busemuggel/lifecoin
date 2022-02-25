@@ -8,7 +8,7 @@ export class TransactionPool {
     this.transactions = []
   }
 
-  thresholdReached() {
+  thresholdReached(): boolean {
     if (this.transactions.length >= TRANSACTION_THRESHOLD) {
       return true
     } else {
@@ -16,7 +16,7 @@ export class TransactionPool {
     }
   }
 
-  addTransaction(transaction: Transaction) {
+  addTransaction(transaction: Transaction): boolean {
     this.transactions.push(transaction)
     if (this.transactions.length >= TRANSACTION_THRESHOLD) {
       return true
@@ -25,7 +25,7 @@ export class TransactionPool {
     }
   }
 
-  validTransactions() {
+  validTransactions(): Transaction[] {
     return this.transactions.filter(transaction => {
       if (!Transaction.verifyTransaction(transaction)) {
         console.log(`Invalid signature from ${transaction.id}`)
@@ -35,12 +35,12 @@ export class TransactionPool {
     })
   }
 
-  transactionExists(transaction: Transaction) {
+  transactionExists(transaction: Transaction): Transaction {
     const exists = this.transactions.find(t => t.id === transaction.id)
     return exists
   }
 
-  clear() {
+  clear(): void {
     this.transactions = []
   }
 }

@@ -24,7 +24,7 @@ export class Blockchain {
     this.validators = new Validators()
   }
 
-  public addBlock(data) {
+  public addBlock(data): Block {
     const block = Block.createBlock(
       this.chain[this.chain.length-1], 
       data, 
@@ -34,7 +34,7 @@ export class Blockchain {
     return block
   }
 
-  createBlock(transactions, wallet: Wallet) {
+  createBlock(transactions, wallet: Wallet): Block {
     const block = Block.createBlock(
       this.chain[this.chain.length - 1],
       transactions,
@@ -43,7 +43,7 @@ export class Blockchain {
     return block
   }
   
-  isValidChain(chain) {
+  isValidChain(chain): boolean {
     if(JSON.stringify(chain[0]) !== JSON.stringify(Block.genesis())) return false
 
     for(let i = 1; i < chain.length; i++) {
@@ -57,7 +57,7 @@ export class Blockchain {
     return true
   }
   
-  replaceChain(newChain) {
+  replaceChain(newChain): void {
     if(newChain.length <= this.chain.length) {
       console.log("Recieved chain is not longer than the current chain")
       return
@@ -71,20 +71,20 @@ export class Blockchain {
     this.chain = newChain
   }
 
-  getBalance(publicKey) {
+  getBalance(publicKey): number {
     return this.accounts.getBalance(publicKey)
   }
 
-  getLeader() {
+  getLeader(): any {
     return this.stakes.getMax(this.validators.list)
   }
 
-  initialize(address) {
+  initialize(address: any): void {
     this.accounts.initialize(address)
     this.stakes.initialize(address)
   }
 
-  isValidBlock(block: Block) {
+  isValidBlock(block: Block): boolean {
     const lastBlock = this.chain[this.chain.length - 1]
     /**
      * check hash
@@ -107,7 +107,7 @@ export class Blockchain {
     }
   }
 
-  executeTransactions(block) {
+  executeTransactions(block: any): void {
     block.data.forEach(transaction => {
       switch (transaction.type) {
         case TRANSACTION_TYPE.transaction:
@@ -137,17 +137,16 @@ export class Blockchain {
     })
   }
 
-  executeChain(chain) {
+  executeChain(chain: any): void {
     chain.forEach(block => {
       this.executeTransactions(block)
     })
   }
 
-  resetState() {
+  resetState(): void {
     this.chain = [Block.genesis()]
     this.stakes = new Stake()
     this.accounts = new Account()
     this.validators = new Validators()
   }
-
 }

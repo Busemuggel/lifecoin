@@ -14,24 +14,24 @@ export class Stake {
     }
   }
 
-  initialize(address) {
+  initialize(address: any): void {
     if (this.balance[address] == undefined) {
       this.balance[address] = 0
       this.addresses.push(address)
     }
   }
 
-  addStake(from, amount) {
+  addStake(from: any, amount: any): void {
     this.initialize(from)
     this.balance[from] += amount
   }
 
-  getBalance(address) {
+  getBalance(address: any): any {
     this.initialize(address)
     return this.balance[address]
   }
 
-  getMax(addresses) {
+  getMax(addresses: any): any {
     const balance = -1
     let leader = undefined
     addresses.forEach(address => {
@@ -42,7 +42,7 @@ export class Stake {
     return leader
   }
 
-  update(transaction) {
+  update(transaction: any): void {
     const amount = transaction.output.amount
     const from = transaction.input.from
     this.addStake(from, amount)

@@ -7,7 +7,7 @@ import { P2pServer } from "./p2p-server"
 import { Wallet } from "../wallet/wallet"
 import { TransactionPool } from "../wallet/transaction-pool"
 
-export const server = async () => {
+export const server = async (): Promise<void> => {
   const logLevels = {
     levels: {
       critical: 0,

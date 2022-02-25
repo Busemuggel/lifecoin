@@ -27,28 +27,28 @@ export class P2pServer {
     this.wallet = wallet
   }
 
-  listen() {
+  listen(): void {
     const server = new WebSocketServer({ port: parseInt(`${P2P_PORT}`) })
     server.on('connection', socket => { this.connectSocket(socket) })
     this.connectToPeers()
     console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`)
   }
   
-  connectSocket(socket: WebSocket) {
+  connectSocket(socket: WebSocket): void {
     this.sockets.push(socket)
     console.log("Socket connected")
     this.messageHandler(socket)
     this.sendChain(socket)
   }
 
-  connectToPeers() {
+  connectToPeers(): void {
     PEERS.forEach((peer) => {
       const socket = new WebSocket(peer)
       socket.on('open', () => this.connectSocket(socket))
     })
   }
 
-  messageHandler(socket: WebSocket) {
+  messageHandler(socket: WebSocket): void {
     socket.on('message', message => {
       const data = JSON.parse(message.toString())
 
@@ -88,11 +88,11 @@ export class P2pServer {
     })
   }
 
-  closeConnectionHandler(socket: any) {
+  closeConnectionHandler(socket: any): void {
     socket.on("close", () => (socket.isAlive = false))
   }
 
-  sendChain(socket: WebSocket) {
+  sendChain(socket: WebSocket): void {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.chain,
@@ -101,13 +101,13 @@ export class P2pServer {
     )
   }
 
-  syncChain() {
+  syncChain(): void {
     this.sockets.forEach(socket => {
       this.sendChain(socket)
     })
   }
 
-  broadcastTransaction(transaction: Transaction) {
+  broadcastTransaction(transaction: Transaction): void {
     if (transaction !== undefined) {
       this.sockets.forEach(socket => {
         this.sendTransaction(socket,transaction)
@@ -115,20 +115,20 @@ export class P2pServer {
     }
   }
 
-  sendTransaction(socket: WebSocket, transaction: Transaction) {
+  sendTransaction(socket: WebSocket, transaction: Transaction): void {
     socket.send(JSON.stringify({
       type: MESSAGE_TYPE.transaction,
       transaction: transaction
     }))
   }
 
-  broadcastBlock(block: any) {
+  broadcastBlock(block: any): void {
     this.sockets.forEach(socket => {
       this.sendBlock(socket, block)
     })
   }
 
-  sendBlock(socket: any, block: any) {
+  sendBlock(socket: any, block: any): void {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.block,

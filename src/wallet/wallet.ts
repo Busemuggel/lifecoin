@@ -14,17 +14,23 @@ export class Wallet {
     this.publicKey = this.keyPair.getPublic("hex")
   }
 
-  toString() {
+  toString(): string {
     return `Wallet - 
       publicKey: ${this.publicKey.toString()}
       balance  : ${this.balance}`
   }
 
-  sign(dataHash: any) {
+  sign(dataHash: any): any {
     return this.keyPair.sign(dataHash).toHex()
   }
 
-  createTransaction(to: any, amount: number, type: any, blockchain: Blockchain, transactionPool: TransactionPool) {
+  createTransaction(
+    to: any, 
+    amount: number, 
+    type: any, 
+    blockchain: Blockchain, 
+    transactionPool: TransactionPool
+  ): Transaction {
     this.balance = this.getBalance(blockchain)
     if (amount > this.balance) {
       console.log(
@@ -37,11 +43,11 @@ export class Wallet {
     return transaction
   }
 
-  getBalance(blockchain: Blockchain) {
+  getBalance(blockchain: Blockchain): number {
     return blockchain.getBalance(this.publicKey)
   }
 
-  getPublicKey() {
+  getPublicKey(): string {
     return this.publicKey
   }
 

@@ -5,19 +5,19 @@ import { eddsa as eddsa } from 'elliptic'
 const EDDSA = new eddsa('ed25519')
 
 export class ChainUtil {
-  static genKeyPair(secret) {
+  static genKeyPair(secret: any): eddsa.KeyPair {
     return EDDSA.keyFromSecret(secret)
   }
 
-  static id() {
+  static id(): string {
     return uuidv1()
   }
 
-  static hash(data) {
+  static hash(data: any): string {
     return SHA256(JSON.stringify(data)).toString()
   }
 
-  static verifySignature(publicKey, signature, dataHash) {
+  static verifySignature(publicKey: any, signature: any, dataHash: any): boolean {
     return EDDSA.keyFromPublic(publicKey).verify(dataHash, signature)
   }
   

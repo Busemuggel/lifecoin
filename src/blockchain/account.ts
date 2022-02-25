@@ -15,41 +15,41 @@ export class Account {
     }
   }
 
-  initialize(address) {
+  initialize(address: any): void {
     if (this.balance[address] == undefined) {
       this.balance[address] = 0
       this.addresses.push(address)
     }
   }
 
-  transfer(from, to, amount) {
+  transfer(from: any, to: any, amount: any): void {
     this.initialize(from)
     this.initialize(to)
     this.increment(to, amount)
     this.decrement(from, amount)
   }
 
-  increment(to, amount) {
+  increment(to, amount): void {
     this.balance[to] += amount
   }
 
-  decrement(from, amount) {
+  decrement(from, amount): void {
     this.balance[from] -= amount
   }
 
-  getBalance(address) {
+  getBalance(address: any): number {
     this.initialize(address)
     return this.balance[address]
   }
 
-  update(transaction) {
+  update(transaction: any): void {
     const amount = transaction.output.amount
     const from = transaction.input.from
     const to = transaction.output.to
     this.transfer(from, to, amount)
   }
 
-  transferFee(block, transaction) {
+  transferFee(block: any, transaction: any): void {
     const amount = transaction.output.fee
     const from = transaction.input.from
     const to = block.validator

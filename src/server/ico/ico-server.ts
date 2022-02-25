@@ -6,7 +6,7 @@ import { TransactionPool } from "../../wallet/transaction-pool"
 import { P2pServer } from "../p2p-server"
 import { FIRST_LEADER, TRANSACTION_THRESHOLD } from "../../config"
 
-export const icoServer = async () => {
+export const icoServer = async (): Promise<void> => {
   console.log("Setting up server...")
   
   const HTTP_PORT = 3000

@@ -1,3 +1,5 @@
+import { Transaction } from "../wallet/transaction"
+
 export class Validators {
   list
   
@@ -7,7 +9,7 @@ export class Validators {
     ]
   }
 
-  update(transaction) {
+  update(transaction: Transaction): boolean {
     if (transaction.output.amount >= 25 && transaction.output.to == "0") {
       this.list.push(transaction.input.from)
       return true
