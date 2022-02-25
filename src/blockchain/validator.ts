@@ -1,7 +1,7 @@
 import { Transaction } from "../wallet/transaction"
 
 export class Validators {
-  list
+  list: string[]
   
   constructor() {
     this.list = [

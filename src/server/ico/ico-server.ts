@@ -5,9 +5,10 @@ import { Blockchain } from "../../blockchain/blockchain"
 import { TransactionPool } from "../../wallet/transaction-pool"
 import { P2pServer } from "../p2p-server"
 import { FIRST_LEADER, TRANSACTION_THRESHOLD } from "../../config"
+import { logger } from "../../lib/logger/logger"
 
 export const icoServer = async (): Promise<void> => {
-  console.log("Setting up server...")
+  logger.info(`Setting up ICO-server on port ${process.env.HTTP_PORT}...`)
   
   const HTTP_PORT = 3000
   const app = express()
@@ -31,7 +32,6 @@ export const icoServer = async (): Promise<void> => {
   
   app.post("/ico/transact", (req, res) => {
     const { to, amount, type } = req.body
-    console.log("app post /ico/transact -> blockchain: ", blockchain.validators)
     const transaction = wallet.createTransaction(to, amount, type, blockchain, transactionPool)
 
     p2pserver.broadcastTransaction(transaction)
@@ -55,7 +55,7 @@ export const icoServer = async (): Promise<void> => {
   })
   
   app.listen(HTTP_PORT, () => {
-    console.log(`Listening on port ${HTTP_PORT}`)
+    logger.info(`Listening on port ${HTTP_PORT}`)
   })
   
   p2pserver.listen()

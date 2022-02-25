@@ -1,6 +1,7 @@
 import { WebSocket, WebSocketServer } from 'ws'
 import { Block } from '../blockchain/block'
 import { Blockchain } from '../blockchain/blockchain'
+import { logger } from '../lib/logger/logger'
 import { Transaction } from '../wallet/transaction'
 import { TransactionPool } from '../wallet/transaction-pool'
 import { Wallet } from '../wallet/wallet'
@@ -32,12 +33,12 @@ export class P2pServer {
     const server = new WebSocketServer({ port: parseInt(`${P2P_PORT}`) })
     server.on('connection', socket => { this.connectSocket(socket) })
     this.connectToPeers()
-    console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`)
+    logger.info(`Listening for peer to peer connection on P2P-Port : ${P2P_PORT}`)
   }
   
   connectSocket(socket: WebSocket): void {
     this.sockets.push(socket)
-    console.log("Socket connected")
+    logger.info(`P2P-Port ${P2P_PORT} - ` + 'Socket connected')
     this.messageHandler(socket)
     this.sendChain(socket)
   }
@@ -66,7 +67,6 @@ export class P2pServer {
           }
           if (this.transactionPool.thresholdReached()) {
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
-              console.log("Creating Block...")
               const block = this.blockchain.createBlock(
                 this.transactionPool.transactions,
                 this.wallet
@@ -137,5 +137,6 @@ export class P2pServer {
         block: block
       })
     )
+    logger.info(`P2P-Port ${P2P_PORT} - ` + 'Broadcast Block')
   }
 }

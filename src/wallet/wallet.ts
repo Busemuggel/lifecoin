@@ -4,6 +4,7 @@ import { Blockchain } from "../blockchain/blockchain"
 import { TransactionPool } from "./transaction-pool"
 import { eddsa } from "elliptic"
 import { TRANSACTION_TYPE } from "../config"
+import { logger } from "../lib/logger/logger"
 
 export class Wallet {
   balance: number
@@ -35,8 +36,9 @@ export class Wallet {
   ): Transaction {
     this.balance = this.getBalance(blockchain)
     if (amount > this.balance) {
-      console.log(
-        `Amount: ${amount} exceeds the current balance: ${this.balance}`
+      logger.info(
+        `Port ${process.env.HTTP_PORT} - `
+        + `Amount: ${amount} exceeds the current balance of ${this.balance}`
       )
       return
     }

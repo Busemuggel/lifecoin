@@ -1,5 +1,6 @@
 import { ChainUtil } from "../chain-util"
 import { TransactionInput, TransactionOutput, TRANSACTION_FEE, TRANSACTION_TYPE } from "../config"
+import { logger } from "../lib/logger/logger"
 import { Wallet } from "./wallet"
 
 export class Transaction {
@@ -21,9 +22,9 @@ export class Transaction {
     amount: number, 
     type: TRANSACTION_TYPE
   ): Transaction {
-    console.log("SENDERWALLET: ", senderWallet.publicKey)
+    logger.info(`Port ${process.env.HTTP_PORT} - ` + `Senderwallet: ${senderWallet.publicKey}`)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
-      console.log(`Not enough balance`)
+      logger.info(`Port ${process.env.HTTP_PORT} - ` + 'Not enough balance')
       return
     }
 

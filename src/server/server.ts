@@ -8,10 +8,7 @@ import { TransactionPool } from "../wallet/transaction-pool"
 import { logger } from "../lib/logger/logger"
 
 export const server = async (): Promise<void> => {
-  logger.log({
-    level: 'info',
-    message: `Setting up server on port: ${process.env.HTTP_PORT}`
-  })
+  logger.info(`Setting up server on port: ${process.env.HTTP_PORT}`)
   
   const HTTP_PORT = process.env.HTTP_PORT
   const app = express()
@@ -22,18 +19,10 @@ export const server = async (): Promise<void> => {
   
   const blockchain = new Blockchain()
   const wallet = new Wallet(Date.now().toString())
-
-  console.log("Wallet Key: ", wallet.publicKey)
-  logger.log({
-    level: 'info',
-    message: `Wallet Key: ${wallet.publicKey}`,
-    ['Port']: process.env.HTTP_PORT
-  })
-
-  // create a new transaction pool which will be later
-  // decentralized and synchronized using the peer to peer server
   const transactionPool = new TransactionPool()
   const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
+
+  logger.info(`Port ${process.env.HTTP_PORT} - ` + `Wallet Key: ${wallet.publicKey}`)
 
   app.get('/blocks',(req,res)=>{
     try {
@@ -74,9 +63,9 @@ export const server = async (): Promise<void> => {
   
   app.listen(HTTP_PORT, () => {
     try {
-      console.log(`listening on port ${HTTP_PORT}`)
+      logger.info(`listening on port ${HTTP_PORT}`)
     } catch (error) {
-      console.log("Something went wrong")
+      logger.error("Something went wrong")
     }
   })
 
