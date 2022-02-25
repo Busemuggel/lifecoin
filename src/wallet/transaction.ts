@@ -1,18 +1,6 @@
 import { ChainUtil } from "../chain-util"
-import { TRANSACTION_FEE, TRANSACTION_TYPE } from "../config"
+import { TransactionInput, TransactionOutput, TRANSACTION_FEE, TRANSACTION_TYPE } from "../config"
 import { Wallet } from "./wallet"
-
-type TransactionInput = {
-  timestamp: number
-  from: string
-  signature: string
-}
-
-type TransactionOutput = {
-  to: string
-  amount: number
-  fee: number
-}
 
 export class Transaction {
   id: string
@@ -27,7 +15,12 @@ export class Transaction {
     this.output = null
   }
 
-  static newTransaction(senderWallet: Wallet, to: string, amount: number, type: TRANSACTION_TYPE): Transaction {
+  static newTransaction(
+    senderWallet: Wallet, 
+    to: string, 
+    amount: number, 
+    type: TRANSACTION_TYPE
+  ): Transaction {
     console.log("SENDERWALLET: ", senderWallet.publicKey)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
       console.log(`Not enough balance`)
@@ -42,7 +35,7 @@ export class Transaction {
     to: string, 
     amount: number, 
     type: TRANSACTION_TYPE
-    ): Transaction {
+  ): Transaction {
     const transaction = new this()
     transaction.type = type
     transaction.output = {

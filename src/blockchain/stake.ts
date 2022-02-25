@@ -1,4 +1,5 @@
 import { Balance } from "../config"
+import { Transaction } from "../wallet/transaction"
 import { Blockchain } from "./blockchain"
 
 export class Stake {
@@ -15,26 +16,26 @@ export class Stake {
     }
   }
 
-  initialize(address: any): void {
+  initialize(address: string): void {
     if (this.balance[address] == undefined) {
       this.balance[address] = 0
       this.addresses.push(address)
     }
   }
 
-  addStake(from: any, amount: any): void {
+  addStake(from: string, amount: number): void {
     this.initialize(from)
     this.balance[from] += amount
   }
 
-  getBalance(address: any): any {
+  getBalance(address: string): number {
     this.initialize(address)
     return this.balance[address]
   }
 
-  getMax(addresses: any): any {
+  getMax(addresses: Array<string>): string {
     const balance = -1
-    let leader = undefined
+    let leader: string = undefined
     addresses.forEach(address => {
       if (this.getBalance(address) > balance) {
         leader = address
@@ -43,7 +44,7 @@ export class Stake {
     return leader
   }
 
-  update(transaction: any): void {
+  update(transaction: Transaction): void {
     const amount = transaction.output.amount
     const from = transaction.input.from
     this.addStake(from, amount)

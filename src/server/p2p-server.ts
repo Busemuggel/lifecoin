@@ -1,4 +1,5 @@
 import { WebSocket, WebSocketServer } from 'ws'
+import { Block } from '../blockchain/block'
 import { Blockchain } from '../blockchain/blockchain'
 import { Transaction } from '../wallet/transaction'
 import { TransactionPool } from '../wallet/transaction-pool'
@@ -88,9 +89,11 @@ export class P2pServer {
     })
   }
 
+  /*
   closeConnectionHandler(socket: any): void {
     socket.on("close", () => (socket.isAlive = false))
   }
+  */
 
   sendChain(socket: WebSocket): void {
     socket.send(
@@ -122,13 +125,13 @@ export class P2pServer {
     }))
   }
 
-  broadcastBlock(block: any): void {
+  broadcastBlock(block: Block): void {
     this.sockets.forEach(socket => {
       this.sendBlock(socket, block)
     })
   }
 
-  sendBlock(socket: any, block: any): void {
+  sendBlock(socket: WebSocket, block: Block): void {
     socket.send(
       JSON.stringify({
         type: MESSAGE_TYPE.block,

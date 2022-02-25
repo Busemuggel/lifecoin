@@ -10,3 +10,15 @@ export enum TRANSACTION_TYPE {
 }
 
 export type Balance = { [key: string]: number }
+
+export type TransactionInput = {
+  timestamp: number
+  from: string
+  signature: string
+}
+
+export type TransactionOutput = {
+  to: string
+  amount: number
+  fee: number
+}

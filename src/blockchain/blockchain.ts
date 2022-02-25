@@ -51,7 +51,7 @@ export class Blockchain {
     return true
   }
   
-  replaceChain(newChain): void {
+  replaceChain(newChain: any): void {
     if(newChain.length <= this.chain.length) {
       console.log("Recieved chain is not longer than the current chain")
       return
@@ -65,15 +65,15 @@ export class Blockchain {
     this.chain = newChain
   }
 
-  getBalance(publicKey): number {
+  getBalance(publicKey: string): number {
     return this.accounts.getBalance(publicKey)
   }
 
-  getLeader(): any {
+  getLeader(): string {
     return this.stakes.getMax(this.validators.list)
   }
 
-  initialize(address: any): void {
+  initialize(address: string): void {
     this.accounts.initialize(address)
     this.stakes.initialize(address)
   }
@@ -101,7 +101,7 @@ export class Blockchain {
     }
   }
 
-  executeTransactions(block: any): void {
+  executeTransactions(block: Block): void {
     block.data.forEach(transaction => {
       switch (transaction.type) {
         case TRANSACTION_TYPE.Transaction:

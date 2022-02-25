@@ -1,4 +1,6 @@
 import { Balance, INITAL_BALANCE } from "../config"
+import { Transaction } from "../wallet/transaction"
+import { Block } from "./block"
 
 export class Account {
   addresses: Array<string>
@@ -40,14 +42,14 @@ export class Account {
     return this.balance[address]
   }
 
-  update(transaction: any): void {
+  update(transaction: Transaction): void {
     const amount = transaction.output.amount
     const from = transaction.input.from
     const to = transaction.output.to
     this.transfer(from, to, amount)
   }
 
-  transferFee(block: any, transaction: any): void {
+  transferFee(block: Block, transaction: Transaction): void {
     const amount = transaction.output.fee
     const from = transaction.input.from
     const to = block.validator
