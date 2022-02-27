@@ -29,7 +29,7 @@ export class TransactionPool {
   validTransactions(): Transaction[] {
     return this.transactions.filter(transaction => {
       if (!Transaction.verifyTransaction(transaction)) {
-        logger.warn(`Port ${process.env.HTTP_PORT} - ` + `Invalid signature from ${transaction.id}`)
+        logger.warn(`Port ${process.env.HTTP_PORT}- ` + `Invalid signature from ${transaction.id}`)
         return
       }
       return transaction

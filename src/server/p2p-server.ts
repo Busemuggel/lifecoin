@@ -38,7 +38,7 @@ export class P2pServer {
   
   connectSocket(socket: WebSocket): void {
     this.sockets.push(socket)
-    logger.info(`P2P-Port ${P2P_PORT} - ` + 'Socket connected')
+    logger.info(`P2P-Port ${P2P_PORT}- ` + 'Socket connected')
     this.messageHandler(socket)
     this.sendChain(socket)
   }
@@ -137,6 +137,6 @@ export class P2pServer {
         block: block
       })
     )
-    logger.info(`P2P-Port ${P2P_PORT} - ` + 'Broadcast Block')
+    logger.info(`P2P-Port ${P2P_PORT}- ` + 'Broadcast Block')
   }
 }

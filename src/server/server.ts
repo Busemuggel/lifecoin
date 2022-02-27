@@ -22,7 +22,7 @@ export const server = async (): Promise<void> => {
   const transactionPool = new TransactionPool()
   const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
 
-  logger.info(`Port ${process.env.HTTP_PORT} - ` + `Wallet Key: ${wallet.publicKey}`)
+  logger.info(`Port ${HTTP_PORT}- ` + `Wallet Key: ${wallet.publicKey}`)
 
   app.get('/blocks',(req,res)=>{
     try {

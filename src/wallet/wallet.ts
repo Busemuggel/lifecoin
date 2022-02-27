@@ -37,7 +37,7 @@ export class Wallet {
     this.balance = this.getBalance(blockchain)
     if (amount > this.balance) {
       logger.info(
-        `Port ${process.env.HTTP_PORT} - `
+        `Port ${process.env.HTTP_PORT}- `
         + `Amount: ${amount} exceeds the current balance of ${this.balance}`
       )
       return

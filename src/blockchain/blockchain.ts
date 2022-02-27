@@ -27,7 +27,7 @@ export class Blockchain {
       new Wallet(FIRST_LEADER)
     )
     this.chain.push(block)
-    logger.info(`Port ${process.env.HTTP_PORT} - ` + 'Block is valid')
+    logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Block is valid')
     return block
   }
 
@@ -57,14 +57,14 @@ export class Blockchain {
   
   replaceChain(newChain: Array<Block>): void {
     if(newChain.length <= this.chain.length) {
-      logger.info(`Port ${process.env.HTTP_PORT} - ` + 'Received chain is not longer than the current chain')
+      logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is not longer than the current chain')
       return
     } else if(!this.isValidChain(newChain)) {
-      logger.warn(`Port ${process.env.HTTP_PORT} - ` + 'Received chain is invalid')
+      logger.warn(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is invalid')
       return
     }
 
-    logger.info(`Port ${process.env.HTTP_PORT} - ` + 'Replacing the current chain with new chain')
+    logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Replacing the current chain with new chain')
     this.resetState()
     this.executeChain(newChain)
     this.chain = newChain

@@ -22,9 +22,9 @@ export class Transaction {
     amount: number, 
     type: TRANSACTION_TYPE
   ): Transaction {
-    logger.info(`Port ${process.env.HTTP_PORT} - ` + `Senderwallet: ${senderWallet.publicKey}`)
+    logger.info(`Port ${process.env.HTTP_PORT}- ` + `Senderwallet: ${senderWallet.publicKey}`)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
-      logger.info(`Port ${process.env.HTTP_PORT} - ` + 'Not enough balance')
+      logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Not enough balance')
       return
     }
 
