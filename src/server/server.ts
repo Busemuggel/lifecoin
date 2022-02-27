@@ -7,13 +7,21 @@ import { TransactionPool } from "../wallet/transaction-pool"
 import { logger } from "../lib/logger/logger"
 import { endpoints } from "../api/endpoints"
 import { HTTP_PORT } from "../config"
+import * as mongoose from 'mongoose'
 
 export const blockchain = new Blockchain()
 export const wallet = new Wallet(Date.now().toString())
 export const transactionPool = new TransactionPool()
 export const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
 
-export const server = () => {
+export const server = (): void => {
+
+  mongoose.connect(
+    'mongodb+srv://Busemuggel:7IhSGLHm3ELht3ci@cluster0.2vg1b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    {}, () => {
+      console.log('connected to Database')}
+  )
+
   logger.info(`Setting up server on port: ${HTTP_PORT}`)
   const app = express()
   
