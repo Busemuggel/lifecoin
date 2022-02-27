@@ -1,4 +1,4 @@
-import { TRANSACTION_THRESHOLD } from "../config"
+import { HTTP_PORT, TRANSACTION_THRESHOLD } from "../config"
 import { logger } from "../lib/logger/logger"
 import { Transaction } from "./transaction"
 
@@ -30,7 +30,7 @@ export class TransactionPool {
     return this.transactions.filter(transaction => {
       if (!Transaction.verifyTransaction(transaction)) {
         logger.warn(
-          `Port ${process.env.HTTP_PORT}- ` + `Invalid signature from ${transaction.id}`, [new Date()]
+          `Port ${HTTP_PORT}- ` + `Invalid signature from ${transaction.id}`, [new Date()]
         )
         return
       }

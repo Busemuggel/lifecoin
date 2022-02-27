@@ -91,6 +91,4 @@ export const endpoints = (app: Express): void => {
     return res.status(200).send(todo)
   })
 
-
-
 }

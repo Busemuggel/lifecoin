@@ -25,10 +25,10 @@ const todoSchema = new mongoose.Schema({
   }
 })
 
-todoSchema.statics.build = (attr: ITodo) => {
+todoSchema.statics.build = (attr: ITodo): ITodo => {
   return new Todo(attr)
 }
 
-const Todo = mongoose.model<any, TodoModelInterface>('Todo', todoSchema)
+const Todo = mongoose.model<TodoDoc, TodoModelInterface>('Todo', todoSchema)
 
 export { Todo }

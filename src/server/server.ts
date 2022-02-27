@@ -19,7 +19,8 @@ export const server = (): void => {
   mongoose.connect(
     'mongodb+srv://Busemuggel:7IhSGLHm3ELht3ci@cluster0.2vg1b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     {}, () => {
-      console.log('connected to Database')}
+      logger.info(`Port ${HTTP_PORT}- ` + `connected to Database`)
+    }
   )
 
   logger.info(`Setting up server on port: ${HTTP_PORT}`)

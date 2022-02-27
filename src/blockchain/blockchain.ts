@@ -1,4 +1,4 @@
-import { FIRST_LEADER, TRANSACTION_TYPE } from "../config"
+import { FIRST_LEADER, HTTP_PORT, TRANSACTION_TYPE } from "../config"
 import { logger } from "../lib/logger/logger"
 import { Transaction } from "../wallet/transaction"
 import { Wallet } from "../wallet/wallet"
@@ -27,7 +27,7 @@ export class Blockchain {
       new Wallet(FIRST_LEADER)
     )
     this.chain.push(block)
-    logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Block is valid')
+    logger.info(`Port ${HTTP_PORT}- ` + 'Block is valid')
     return block
   }
 
@@ -57,14 +57,14 @@ export class Blockchain {
   
   replaceChain(newChain: Array<Block>): void {
     if(newChain.length <= this.chain.length) {
-      logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is not longer than the current chain')
+      logger.info(`Port ${HTTP_PORT}- ` + 'Received chain is not longer than the current chain')
       return
     } else if(!this.isValidChain(newChain)) {
-      logger.warn(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is invalid', [new Date()])
+      logger.warn(`Port ${HTTP_PORT}- ` + 'Received chain is invalid', [new Date()])
       return
     }
 
-    logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Replacing the current chain with new chain')
+    logger.info(`Port ${HTTP_PORT}- ` + 'Replacing the current chain with new chain')
     this.resetState()
     this.executeChain(newChain)
     this.chain = newChain
