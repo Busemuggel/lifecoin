@@ -60,7 +60,7 @@ export class Blockchain {
       logger.info(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is not longer than the current chain')
       return
     } else if(!this.isValidChain(newChain)) {
-      logger.warn(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is invalid')
+      logger.warn(`Port ${process.env.HTTP_PORT}- ` + 'Received chain is invalid', [new Date()])
       return
     }
 
