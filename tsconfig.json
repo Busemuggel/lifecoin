@@ -8,8 +8,7 @@
     "rootDir": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-  //  "noImplicitAny": true
+    "moduleResolution": "node"
   },
   "exclude": [
     "node_modules",

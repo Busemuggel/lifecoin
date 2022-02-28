@@ -15,7 +15,6 @@ export const transactionPool = new TransactionPool()
 export const p2pserver = new P2pServer(blockchain, transactionPool, wallet)
 
 export const server = (): void => {
-
   mongoose.connect(
     'mongodb+srv://Busemuggel:7IhSGLHm3ELht3ci@cluster0.2vg1b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     {}, () => {
