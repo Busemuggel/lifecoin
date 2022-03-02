@@ -90,5 +90,4 @@ export const endpoints = (app: Express): void => {
     const todo = await Todo.find({})
     return res.status(200).send(todo)
   })
-
 }
