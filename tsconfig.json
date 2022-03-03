@@ -5,7 +5,7 @@
     "removeComments": true,
     "sourceMap": true,
     "outDir": "app",
-    "rootDir": "src",
+    "rootDirs": ["tests", "src"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node"
