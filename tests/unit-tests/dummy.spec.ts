@@ -1,4 +1,4 @@
-import 'jest';
+import 'jest'
 
 describe('Dummy Test Cases', () => {
   test('Verify Jest is working', () => {
