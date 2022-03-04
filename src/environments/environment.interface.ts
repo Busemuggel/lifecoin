@@ -1,5 +1,5 @@
 interface IEnvironment {
-  port: number
+  httpPort: number
   p2pPort: number
   // secretKey: string
   // applyEncryption: boolean

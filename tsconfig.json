@@ -9,8 +9,24 @@
     "rootDirs": ["tests", "src"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+       "paths": {
+          "*": [
+            "node_modules/*",
+            "tests/*",
+          ]
+     }
   },
+  "include": [
+    "src/**/*.ts",
+    ".env",
+    ".env.*",
+    "tests/**/*.ts",
+    "index.js",
+    "jest.config.js",
+    "config/*.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]

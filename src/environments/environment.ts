@@ -5,16 +5,18 @@ import { EnvironmentFile, Environments } from './environment.constant'
 import IEnvironment from './environment.interface'
 
 class Environment implements IEnvironment {
-  public port: number
+  public httpPort: number
   public p2pPort: number
   // public secretKey: string
   // public applyEncryption: boolean
 
   constructor(NODE_ENV?: string) {
     const env: string= NODE_ENV || process.env.NODE_ENV || Environments.DEV
-    const port: string | undefined | number = process.env.PORT || 3146
+    const httpPort: string | undefined | number = process.env.HTTP_PORT || 3005
+    const p2pPort: string | undefined | number = process.env.P2P_PORT || 5005
     this.setEnvironment(env)
-    this.port = Number(port)
+    this.httpPort = Number(httpPort)
+    this.p2pPort = Number(p2pPort)
     // this.applyEncryption = JSON.parse(process.env.APPLY_ENCRYPTION)
     // this.secretKey =  process.env.SECRET_KEY
   }
