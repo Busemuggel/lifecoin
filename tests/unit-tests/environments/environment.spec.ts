@@ -10,8 +10,9 @@ describe('Environment', () => {
   })
 
   it('should get the current environment', async () => {
+    let environment = instance.getCurrentEnvironment()
+
     expect(instance).toBeInstanceOf(Environment)
-    const environment = instance.getCurrentEnvironment()
     expect(environment).toBeDefined()
     expect(environment).toBe(Environments.TEST)
   })
@@ -40,7 +41,19 @@ describe('Environment', () => {
     instance.setEnvironment(Environments.DEV)
     const environment = instance.getCurrentEnvironment()
     expect(environment).toBeDefined()
-    expect(environment).not.toBe(Environments.TEST)
     expect(environment).toBe(Environments.DEV)
+    expect(environment).not.toBe(Environments.TEST)
+  })
+
+  it('should check if environment is not staging', async () => {
+    instance.setEnvironment(Environments.STAGING)
+
+    expect(instance.getCurrentEnvironment()).toBe(Environments.STAGING)
+  })
+
+  it('should check if environment is not production', async () => {
+    instance.setEnvironment(Environments.PRODUCTION)
+
+    expect(instance.getCurrentEnvironment()).toBe(Environments.PRODUCTION)
   })
 })

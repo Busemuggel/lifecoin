@@ -11,11 +11,11 @@ class Environment implements IEnvironment {
   // public secretKey: string
   // public applyEncryption: boolean
 
-  constructor(NODE_ENV?: Environments) {
-    this.env = NODE_ENV || process.env.NODE_ENV || Environments.DEV
+  constructor(NODE_ENV: Environments) {
+    this.env = NODE_ENV
     const httpPort: string | undefined | number = process.env.HTTP_PORT || 3005
     const p2pPort: string | undefined | number = process.env.P2P_PORT || 5005
-    this.setEnvironment(this.env)
+    this.setEnvironment(NODE_ENV)
     this.httpPort = Number(httpPort)
     this.p2pPort = Number(p2pPort)
     // this.applyEncryption = JSON.parse(process.env.APPLY_ENCRYPTION)
@@ -25,15 +25,10 @@ class Environment implements IEnvironment {
   public getCurrentEnvironment(): Environments {
     let environment: string = this.env
 
-    if (!environment) {
-      environment = Environments.DEV
-    }
-
     switch (environment) {
       case Environments.PRODUCTION:
         return Environments.PRODUCTION
       case Environments.TEST:
-      case Environments.QA:
         return Environments.TEST
       case Environments.STAGING:
         return Environments.STAGING
@@ -43,7 +38,7 @@ class Environment implements IEnvironment {
     }
   }
 
-  public setEnvironment(env: (Environments | string)): void {
+  public setEnvironment(env: Environments): void {
     let envPath: string
     const rootdir : string = path.resolve(__dirname, '../../')
     this.env = env
@@ -61,8 +56,6 @@ class Environment implements IEnvironment {
       case Environments.STAGING:
         envPath = path.resolve(rootdir, EnvironmentFile.STAGING)
         break
-      default:
-        envPath = path.resolve(rootdir, EnvironmentFile.DEV)
     }
 
     if (!fs.existsSync(envPath)) {
