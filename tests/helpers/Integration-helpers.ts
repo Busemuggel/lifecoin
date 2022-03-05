@@ -11,7 +11,7 @@ export default class IntegrationHelpers {
     if (this.appInstance) {
       return this.appInstance
     }
-    const env: Environment = new Environment(Environments.TEST)
+    const env: Environment = new Environment(Environments.DEV)
     setGlobalEnvironment(env)
     await server()
     this.appInstance = server().express

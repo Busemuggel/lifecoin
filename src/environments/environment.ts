@@ -7,47 +7,53 @@ import IEnvironment from './environment.interface'
 class Environment implements IEnvironment {
   public httpPort: number
   public p2pPort: number
+  public env: (Environments | string)
   // public secretKey: string
   // public applyEncryption: boolean
 
-  constructor(NODE_ENV?: string) {
-    const env: string= NODE_ENV || process.env.NODE_ENV || Environments.DEV
+  constructor(NODE_ENV?: Environments) {
+    this.env = NODE_ENV || process.env.NODE_ENV || Environments.DEV
     const httpPort: string | undefined | number = process.env.HTTP_PORT || 3005
     const p2pPort: string | undefined | number = process.env.P2P_PORT || 5005
-    this.setEnvironment(env)
+    this.setEnvironment(this.env)
     this.httpPort = Number(httpPort)
     this.p2pPort = Number(p2pPort)
     // this.applyEncryption = JSON.parse(process.env.APPLY_ENCRYPTION)
     // this.secretKey =  process.env.SECRET_KEY
   }
 
-  public getCurrentEnvironment(): string {
-    let environment: string = process.env.NODE_ENV || Environments.DEV
+  public getCurrentEnvironment(): Environments {
+    let environment: string = this.env
 
     if (!environment) {
-      environment = Environments.LOCAL
+      environment = Environments.DEV
     }
+
     switch (environment) {
       case Environments.PRODUCTION:
         return Environments.PRODUCTION
-      case Environments.DEV:
       case Environments.TEST:
       case Environments.QA:
         return Environments.TEST
       case Environments.STAGING:
         return Environments.STAGING
-      case Environments.LOCAL:
+      case Environments.DEV:
       default:
-        return Environments.LOCAL
+        return Environments.DEV
     }
   }
 
-  public setEnvironment(env: string): void {
+  public setEnvironment(env: (Environments | string)): void {
     let envPath: string
     const rootdir : string = path.resolve(__dirname, '../../')
+    this.env = env
+
     switch (env) {
       case Environments.PRODUCTION:
         envPath = path.resolve(rootdir, EnvironmentFile.PRODUCTION)
+        break
+      case Environments.DEV:
+        envPath = path.resolve(rootdir, EnvironmentFile.DEV)
         break
       case Environments.TEST:
         envPath = path.resolve(rootdir, EnvironmentFile.TEST)
@@ -55,25 +61,19 @@ class Environment implements IEnvironment {
       case Environments.STAGING:
         envPath = path.resolve(rootdir, EnvironmentFile.STAGING)
         break
-      case Environments.LOCAL:
-        envPath = path.resolve(rootdir, EnvironmentFile.LOCAL)
-        break
       default:
-        envPath = path.resolve(rootdir, EnvironmentFile.LOCAL)
+        envPath = path.resolve(rootdir, EnvironmentFile.DEV)
     }
+
     if (!fs.existsSync(envPath)) {
       throw new Error('.env file is missing in root directory')
     }
+
     configDotenv({ path: envPath })
   }
 
-  public isProductionEnvironment(): boolean {
-    return this.getCurrentEnvironment() === Environments.PRODUCTION
-  }
-
   public isDevEnvironment(): boolean {
-    return this.getCurrentEnvironment() === Environments.DEV 
-    || this.getCurrentEnvironment() === Environments.LOCAL
+    return this.getCurrentEnvironment() === Environments.DEV
   }
 
   public isTestEnvironment(): boolean {
@@ -82,6 +82,10 @@ class Environment implements IEnvironment {
 
   public isStagingEnvironment(): boolean {
     return this.getCurrentEnvironment() === Environments.STAGING
+  }
+
+  public isProductionEnvironment(): boolean {
+    return this.getCurrentEnvironment() === Environments.PRODUCTION
   }
 }
 

@@ -1,5 +1,4 @@
 enum Environments {
-  LOCAL = 'local',
   PRODUCTION = 'production',
   DEV = 'dev',
   TEST = 'test',
@@ -8,7 +7,6 @@ enum Environments {
 }
 
 enum EnvironmentFile {
-  LOCAL = '.env',
   PRODUCTION = '.env.prod',
   DEV = '.env',
   TEST = '.env.test',
