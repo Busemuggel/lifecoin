@@ -1,12 +1,12 @@
-import { ChainUtil } from "../chain-util"
-import { Transaction } from "./transaction"
-import { Blockchain } from "../blockchain/blockchain"
-import { TransactionPool } from "./transaction-pool"
+import ChainUtil from "../chain-util"
+import Transaction from "./transaction"
+import Blockchain from "../blockchain/blockchain"
+import TransactionPool from "./transaction-pool"
 import { eddsa } from "elliptic"
 import { HTTP_PORT, TRANSACTION_TYPE } from "../config"
 import { logger } from "../lib/logger/logger"
 
-export class Wallet {
+export default class Wallet {
   balance: number
   keyPair: eddsa.KeyPair
   publicKey: string

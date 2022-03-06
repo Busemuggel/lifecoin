@@ -1,13 +1,13 @@
 import { FIRST_LEADER, HTTP_PORT, TRANSACTION_TYPE } from "../config"
 import { logger } from "../lib/logger/logger"
-import { Transaction } from "../wallet/transaction"
-import { Wallet } from "../wallet/wallet"
-import { Account } from "./account"
-import { Block } from "./block"
-import { Stake } from "./stake"
-import { Validators } from "./validator"
+import Transaction from "../wallet/transaction"
+import Wallet from "../wallet/wallet"
+import Account from "./account"
+import Block from "./block"
+import Stake from "./stake"
+import Validators from "./validator"
 
-export class Blockchain {
+export default class Blockchain {
   chain: Array<Block>
   stakes: Stake
   accounts: Account

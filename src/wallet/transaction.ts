@@ -1,9 +1,9 @@
-import { ChainUtil } from "../chain-util"
+import ChainUtil from "../chain-util"
 import { HTTP_PORT, TransactionInput, TransactionOutput, TRANSACTION_FEE, TRANSACTION_TYPE } from "../config"
 import { logger } from "../lib/logger/logger"
-import { Wallet } from "./wallet"
+import Wallet from "./wallet"
 
-export class Transaction {
+export default class Transaction {
   id: string
   type: TRANSACTION_TYPE
   input: TransactionInput

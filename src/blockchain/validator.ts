@@ -1,6 +1,6 @@
-import { Transaction } from "../wallet/transaction"
+import Transaction from "../wallet/transaction"
 
-export class Validators {
+export default class Validators {
   list: string[]
   
   constructor() {

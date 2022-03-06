@@ -5,7 +5,7 @@ import { TransactionOutput } from "./config"
 
 const EDDSA = new eddsa('ed25519')
 
-export class ChainUtil {
+export default class ChainUtil {
   static genKeyPair(secret: eddsa.Bytes): eddsa.KeyPair {
     return EDDSA.keyFromSecret(secret)
   }

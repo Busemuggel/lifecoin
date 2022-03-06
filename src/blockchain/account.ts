@@ -1,8 +1,8 @@
 import { Balance, INITAL_BALANCE } from "../config"
-import { Transaction } from "../wallet/transaction"
-import { Block } from "./block"
+import Transaction from "../wallet/transaction"
+import Block from "./block"
 
-export class Account {
+export default class Account {
   addresses: Array<string>
   balance: Balance
 

@@ -1,8 +1,8 @@
 import { Balance } from "../config"
-import { Transaction } from "../wallet/transaction"
-import { Blockchain } from "./blockchain"
+import Transaction from "../wallet/transaction"
+import Blockchain from "./blockchain"
 
-export class Stake {
+export default class Stake {
   addresses: Array<string>
   balance: Balance
   blockchain: Blockchain

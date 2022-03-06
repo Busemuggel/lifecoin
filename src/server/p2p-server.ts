@@ -1,10 +1,10 @@
 import { WebSocket, WebSocketServer } from 'ws'
-import { Block } from '../blockchain/block'
-import { Blockchain } from '../blockchain/blockchain'
+import Block from '../blockchain/block'
+import Blockchain from '../blockchain/blockchain'
+import Transaction from '../wallet/transaction'
+import TransactionPool from '../wallet/transaction-pool'
+import Wallet from '../wallet/wallet'
 import { logger } from '../lib/logger/logger'
-import { Transaction } from '../wallet/transaction'
-import { TransactionPool } from '../wallet/transaction-pool'
-import { Wallet } from '../wallet/wallet'
 
 const P2P_PORT = process.env.P2P_PORT // || 5000
 const PEERS = process.env.PEERS ? process.env.PEERS.split(',') : []
@@ -16,7 +16,7 @@ const MESSAGE_TYPE = {
   clear_transactions: "CLEAR_TRANSACTIONS"
 }
 
-export class P2pServer {
+export default class P2pServer {
   blockchain: Blockchain
   sockets: WebSocket[]
   transactionPool: TransactionPool

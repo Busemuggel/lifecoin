@@ -1,9 +1,9 @@
 import * as express from "express"
 import * as cors from "cors"
-import { Wallet } from "../../wallet/wallet"
-import { Blockchain } from "../../blockchain/blockchain"
-import { TransactionPool } from "../../wallet/transaction-pool"
-import { P2pServer } from "../p2p-server"
+import Wallet from "../../wallet/wallet"
+import Blockchain from "../../blockchain/blockchain"
+import TransactionPool from "../../wallet/transaction-pool"
+import P2pServer from "../p2p-server"
 import { FIRST_LEADER, TRANSACTION_THRESHOLD } from "../../config"
 import { logger } from "../../lib/logger/logger"
 import * as mongoose from 'mongoose'

@@ -1,9 +1,9 @@
 import { SHA256 } from "crypto-js"
-import { ChainUtil } from "../chain-util"
-import { Transaction } from "../wallet/transaction"
-import { Wallet } from "../wallet/wallet"
+import ChainUtil from "../chain-util"
+import Transaction from "../wallet/transaction"
+import Wallet from "../wallet/wallet"
 
-export class Block {
+export default class Block {
   timestamp: number
   lastHash: string
   hash: string
@@ -75,5 +75,4 @@ export class Block {
   static verifyLeader(block: Block, leader: string): boolean {
     return block.validator == leader ? true : false
   }
-
 }

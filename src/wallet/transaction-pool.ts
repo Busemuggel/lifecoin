@@ -1,8 +1,8 @@
 import { HTTP_PORT, TRANSACTION_THRESHOLD } from "../config"
 import { logger } from "../lib/logger/logger"
-import { Transaction } from "./transaction"
+import Transaction from "./transaction"
 
-export class TransactionPool {
+export default class TransactionPool {
   transactions: Transaction[]
 
   constructor() {
