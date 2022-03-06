@@ -10,7 +10,7 @@ describe('Environment', () => {
   })
 
   it('should get the current environment', async () => {
-    let environment = instance.getCurrentEnvironment()
+    const environment = instance.getCurrentEnvironment()
 
     expect(instance).toBeInstanceOf(Environment)
     expect(environment).toBeDefined()
