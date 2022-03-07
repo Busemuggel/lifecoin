@@ -109,8 +109,8 @@ export default class Blockchain {
     block.data.forEach(transaction => {
       switch (transaction.type) {
         case TRANSACTION_TYPE.Transaction:
-          this.accounts.update(transaction)
-          this.accounts.transferFee(block, transaction)
+          this.accounts.transfer(transaction.input.from, transaction.output.to, transaction.output.amount)
+          this.accounts.transferFee(transaction.input.from, block.validator, transaction.output.fee)
           break
 
         case TRANSACTION_TYPE.Stake:
@@ -119,7 +119,7 @@ export default class Blockchain {
             transaction.input.from,
             transaction.output.amount
           )
-          this.accounts.transferFee(block, transaction)
+          this.accounts.transferFee(transaction.input.from, block.validator, transaction.output.fee)
           break
 
         case TRANSACTION_TYPE.Validator_fee:
@@ -128,7 +128,7 @@ export default class Blockchain {
               transaction.input.from,
               transaction.output.amount
             )
-            this.accounts.transferFee(block, transaction)
+            this.accounts.transferFee(transaction.input.from, block.validator, transaction.output.fee)
           }
           break
       }
