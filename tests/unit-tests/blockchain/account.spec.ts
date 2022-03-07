@@ -16,11 +16,11 @@ const Block = mockedBlock.default
 */
 
 describe('Environment', () => {
-  let account: Account = new Account()
-  const TEST_ADDRESS: string = "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
+  const account: Account = new Account()
+  const TEST_ADDRESS = "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
   const TEST_ADDRESS_BALANCE = 200
 
-  const addressAndBalanceLoader = () => {
+  const addressAndBalanceLoader = (): void => {
     account.addresses = [
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf",
       TEST_ADDRESS
@@ -36,8 +36,8 @@ describe('Environment', () => {
     account.balance = {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
     }
-   // Transaction.mockClear()
-   // Block.mockClear()
+    // Transaction.mockClear()
+    // Block.mockClear()
   })
 
   it('should add an adress to addresses', async () => {
@@ -53,7 +53,8 @@ describe('Environment', () => {
     account.transfer(account.addresses[0], TEST_ADDRESS, 150)
 
     expect(account.addresses[1]).toStrictEqual(TEST_ADDRESS)
-    expect(account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"]).toBe(INITAL_BALANCE - 150)
+    expect(account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"])
+      .toBe(INITAL_BALANCE - 150)
     expect(account.balance[TEST_ADDRESS]).toBe(150)
   })
 
@@ -67,13 +68,15 @@ describe('Environment', () => {
 
   it('should send the transfer fee from address 1 to address 2 with a transaction', async () => {
     addressAndBalanceLoader()
-    const fromAdress = "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf" // in future from type address
-    const toValidator = "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3" // in future from type validator
+    const fromAdress = "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
+    // in future from type address
+    const toValidator = "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
+    // in future from type validator
 
     account.transferFee(fromAdress, toValidator, TRANSACTION_FEE)
 
     expect(account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"])
-    .toBe(INITAL_BALANCE - TEST_ADDRESS_BALANCE - TRANSACTION_FEE)
+      .toBe(INITAL_BALANCE - TEST_ADDRESS_BALANCE - TRANSACTION_FEE)
     expect(account.balance[TEST_ADDRESS]).toBe(TEST_ADDRESS_BALANCE + TRANSACTION_FEE)
   })
 })

@@ -23,7 +23,7 @@ class Environment implements IEnvironment {
   }
 
   public getCurrentEnvironment(): Environments {
-    let environment: string = this.env
+    const environment: string = this.env
 
     switch (environment) {
       case Environments.PRODUCTION:
