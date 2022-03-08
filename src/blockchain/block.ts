@@ -27,16 +27,6 @@ export default class Block {
     this.signature = signature
   }
 
-  toString(): string {
-    return `Block - 
-      Timestamp : ${this.timestamp}
-      Last Hash : ${this.lastHash}
-      Hash      : ${this.hash}
-      Data      : ${this.data}
-      Validator : ${this.validator}
-      Signature : ${this.signature}`
-  }
-
   static genesis(): Block {
     return new this(0, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
