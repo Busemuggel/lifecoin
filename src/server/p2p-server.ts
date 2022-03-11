@@ -66,6 +66,7 @@ export default class P2pServer {
             this.broadcastTransaction(data.transaction)
           }
           if (this.transactionPool.thresholdReached()) {
+            // get leader will be getValidators inf future
             if (this.blockchain.getLeader() == this.wallet.getPublicKey()) {
               const block = this.blockchain.createBlock(
                 this.transactionPool.transactions,

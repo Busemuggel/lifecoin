@@ -1,11 +1,9 @@
 import { Balance } from "../config"
 import Transaction from "../wallet/transaction"
-import Blockchain from "./blockchain"
 
 export default class Stake {
   addresses: Array<string>
   balance: Balance
-  blockchain: Blockchain
 
   constructor() {
     this.addresses = [
