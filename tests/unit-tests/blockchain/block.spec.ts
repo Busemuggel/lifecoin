@@ -7,7 +7,7 @@ import { mockedBlock } from './mocked-block'
 
 import { mockedTransactionOne, mockedTransactionStake, mockedTransactionTwo } from './mocked-transaction'
 
-describe('Environment', () => {
+describe('Block', () => {
   let block: Block
   const transactions: Transaction[] = [
     mockedTransactionOne,
@@ -32,11 +32,8 @@ describe('Environment', () => {
     expect(result).toBeInstanceOf(Block)
   })
 
-
   it('should hash a block and return a string', async () => {
     const result = Block.blockHash(block)
-
-  //  expect(result).toBeInstanceOf(String)
 
     expect.stringContaining(result)
   })
