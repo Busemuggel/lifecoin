@@ -45,6 +45,21 @@ export const mockedTransactionValidatorFee = {
   }
 }
 
+export const brokenMockedTransactionValidatorFee = {
+  "id": "f348fa00-9e6e-11ec-8fae-9d04524d3462",
+  "type": TRANSACTION_TYPE.Validator_fee,
+  "input": {
+    "timestamp": 1646695990688,
+    "from": "111d981836c881477816ded2179bd9da1985e0fe27909f068d7baec3e45a728",
+    "signature": "6B2D126EF4D3DDC48A0ED74E778237DB65FDF6A57CAE4137D21B2F0AA7FC091B3F74C09EE34F93C86BF873845A5129F9887338B1A9573C0F97EF7C682F09E70D"
+  },
+  "output": {
+    "to": "0",
+    "amount": 22,
+    "fee": 1
+  }
+}
+
 export const mockedTransactionStake = {
   "id": "320af4a0-9e6f-11ec-8fae-9d04524d3462",
   "type": TRANSACTION_TYPE.Stake,
