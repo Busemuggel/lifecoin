@@ -8,8 +8,6 @@ import { TEST_ADDRESS, TEST_ADDRESS_2 } from './mocked-address'
 
 describe('Stake', () => {
   const stake: Stake = new Stake()
-  const transaction: Transaction = mockedTransactionStake
-  const wallet = new Wallet(FIRST_LEADER)
 
   beforeEach(() => {
     stake.addresses = ["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"]

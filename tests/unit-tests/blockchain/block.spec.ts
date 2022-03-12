@@ -45,8 +45,8 @@ describe('Block', () => {
   })
 
   it('should check if a leader is valid', async () => {
-    const leader: string = '502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf'
-    const falseLeader: string = 'asdf'
+    const leader = '502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf'
+    const falseLeader = 'asdf'
 
     const result = Block.verifyLeader(block, leader)
     const falseResult = Block.verifyLeader(block, falseLeader)
