@@ -1,9 +1,5 @@
 import 'jest'
-import { FIRST_LEADER } from '../../../src/config'
-import Wallet from '../../../src/wallet/wallet'
-import Transaction from '../../../src/wallet/transaction'
 import Stake from '../../../src/blockchain/stake'
-import { mockedTransactionStake } from './mocked-transaction'
 import { TEST_ADDRESS, TEST_ADDRESS_2 } from './mocked-address'
 
 describe('Stake', () => {

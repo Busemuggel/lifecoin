@@ -1,20 +1,7 @@
 import 'jest'
 import Account from '../../../src/blockchain/account'
-// import Transaction, * as nativeTransaction from '../../../src/wallet/transaction'
-// import * as nativeBlock from '../../../src/blockchain/block'
 import { INITAL_BALANCE, TRANSACTION_FEE } from '../../../src/config'
 import { TEST_ADDRESS, TEST_ADDRESS_BALANCE } from './mocked-address'
-
-/*
-jest.mock('../../../src/wallet/transaction')
-jest.mock('../../../src/blockchain/block')
-
-const mockedTransaction = nativeTransaction as jest.Mocked<typeof nativeTransaction>
-const Transaction = mockedTransaction.default
-
-const mockedBlock = nativeBlock as jest.Mocked<typeof nativeBlock>
-const Block = mockedBlock.default
-*/
 
 describe('Account', () => {
   const account: Account = new Account()
@@ -35,8 +22,6 @@ describe('Account', () => {
     account.balance = {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
     }
-    // Transaction.mockClear()
-    // Block.mockClear()
   })
 
   it('should add an adress to account addresses', async () => {
