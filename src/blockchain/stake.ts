@@ -1,5 +1,4 @@
 import { Balance } from "../config"
-import Transaction from "../wallet/transaction"
 
 export default class Stake {
   addresses: Array<string>
@@ -40,11 +39,5 @@ export default class Stake {
       }
     })
     return leader
-  }
-
-  update(transaction: Transaction): void {
-    const amount = transaction.output.amount
-    const from = transaction.input.from
-    this.addStake(from, amount)
   }
 }
