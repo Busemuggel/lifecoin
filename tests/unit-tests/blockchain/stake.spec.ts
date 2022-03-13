@@ -1,6 +1,6 @@
 import 'jest'
 import Stake from '../../../src/blockchain/stake'
-import { TEST_ADDRESS, TEST_ADDRESS_2 } from './mocked-address'
+import { TEST_ADDRESS, TEST_ADDRESS_2 } from '../../mocks/mocked-address'
 
 describe('Stake', () => {
   const stake: Stake = new Stake()

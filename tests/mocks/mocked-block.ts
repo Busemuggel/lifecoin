@@ -1,5 +1,5 @@
-import { TRANSACTION_TYPE } from "../../../src/config"
-import Block from "../../../src/blockchain/block"
+import { TRANSACTION_TYPE } from "../../src/config"
+import Block from "../blockchain/block"
 
 export const mockedBlock: Block = {
   "timestamp": 1646668608462,

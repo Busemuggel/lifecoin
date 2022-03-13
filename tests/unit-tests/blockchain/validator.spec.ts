@@ -1,6 +1,6 @@
 import 'jest'
 import Validators from '../../../src/blockchain/validator'
-import { brokenMockedTransactionValidatorFee, mockedTransactionValidatorFee } from './mocked-transaction'
+import { brokenMockedTransactionValidatorFee, mockedTransactionValidatorFee } from '../../mocks/mocked-transaction'
 
 describe('Validator', () => {
   const validators: Validators = new Validators()

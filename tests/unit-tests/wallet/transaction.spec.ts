@@ -1,9 +1,9 @@
 import 'jest'
-import { TEST_ADDRESS } from '../blockchain/mocked-address'
+import { TEST_ADDRESS } from '../../mocks/mocked-address'
 import { FIRST_LEADER, TRANSACTION_TYPE } from '../../../src/config'
 import Transaction from '../../../src/wallet/transaction'
 import * as nativeWallet from '../../../src/wallet/wallet'
-import { mockedTransactionOne } from '../blockchain/mocked-transaction'
+import { mockedTransactionOne } from '../../mocks/mocked-transaction'
 
 const mockedWallet = nativeWallet as jest.Mocked<typeof nativeWallet>
 

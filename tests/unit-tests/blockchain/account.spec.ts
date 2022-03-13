@@ -1,7 +1,7 @@
 import 'jest'
 import Account from '../../../src/blockchain/account'
 import { INITAL_BALANCE, TRANSACTION_FEE } from '../../../src/config'
-import { TEST_ADDRESS, TEST_ADDRESS_BALANCE } from './mocked-address'
+import { TEST_ADDRESS, TEST_ADDRESS_BALANCE } from '../../mocks/mocked-address'
 
 describe('Account', () => {
   const account: Account = new Account()
