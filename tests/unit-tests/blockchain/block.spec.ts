@@ -1,11 +1,12 @@
 import 'jest'
 import { FIRST_LEADER } from '../../../src/config'
-import Wallet from '../../../src/wallet/wallet'
 import Block from '../../../src/blockchain/block'
 import Transaction from '../../../src/wallet/transaction'
 import { mockedBlock } from './mocked-block'
-
 import { mockedTransactionOne, mockedTransactionStake, mockedTransactionTwo } from './mocked-transaction'
+import * as nativeWallet from '../../../src/wallet/wallet'
+
+const mockedWallet = nativeWallet as jest.Mocked<typeof nativeWallet>
 
 describe('Block', () => {
   let block: Block
@@ -14,7 +15,7 @@ describe('Block', () => {
     mockedTransactionTwo,
     mockedTransactionStake
   ]
-  const wallet = new Wallet(FIRST_LEADER)
+  const wallet = new mockedWallet.default(FIRST_LEADER)
 
   beforeEach(() => {
     block = mockedBlock
