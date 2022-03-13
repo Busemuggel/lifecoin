@@ -21,7 +21,7 @@ export default class Transaction {
     to: string, 
     amount: number, 
     type: TRANSACTION_TYPE
-  ): Transaction {
+  ): Transaction | undefined {
     logger.info(`Port ${HTTP_PORT}- ` + `Senderwallet: ${senderWallet.publicKey}`)
     if (amount + TRANSACTION_FEE > senderWallet.balance) {
       logger.info(`Port ${HTTP_PORT}- ` + 'Not enough balance')
