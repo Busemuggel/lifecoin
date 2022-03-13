@@ -24,7 +24,7 @@ export const server: any = (): void => {
 
   logger.info(`Setting up server on port: ${HTTP_PORT}`)
   const app = express()
-  
+
   app.use(express.urlencoded({ extended: true }))
   app.use(express.json())
   app.use(cors())

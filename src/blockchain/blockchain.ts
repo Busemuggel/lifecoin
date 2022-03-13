@@ -117,7 +117,7 @@ export default class Blockchain {
           this.stakes.addStake(
             transaction.input.from, 
             transaction.output.amount
-            )
+          )
           this.accounts.decrement(
             transaction.input.from,
             transaction.output.amount
