@@ -1,4 +1,4 @@
-import { TRANSACTION_TYPE } from "../../src/config"
+import { TRANSACTION_TYPE } from "../config"
 
 export const mockedTransactionOne = {
   "id": "62af2780-9e6e-11ec-89da-89e1f3a3718a",

@@ -1,4 +1,4 @@
-import { TRANSACTION_TYPE } from "../../src/config"
+import { TRANSACTION_TYPE } from "../config"
 import Block from "../blockchain/block"
 
 export const mockedBlock: Block = {
