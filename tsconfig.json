@@ -24,7 +24,7 @@
     ".env.*",
     "tests/**/*.ts",
     "index.js",
-    "jest.config.js",
+    "jest.config.ts",
     "config/*.config.js"
   ],
   "exclude": [
