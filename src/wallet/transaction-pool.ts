@@ -17,13 +17,8 @@ export default class TransactionPool {
     }
   }
 
-  addTransaction(transaction: Transaction): boolean {
+  addTransaction(transaction: Transaction): void {
     this.transactions.push(transaction)
-    if (this.transactions.length >= TRANSACTION_THRESHOLD) {
-      return true
-    } else {
-      return false
-    }
   }
 
   validTransactions(): Transaction[] {
