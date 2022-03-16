@@ -56,6 +56,7 @@ export default class Transaction {
     }
   }
 
+  /* unused method */
   static verifyTransaction(transaction: Transaction): boolean {
     return ChainUtil.verifySignature(
       transaction.input.from,

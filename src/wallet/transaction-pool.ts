@@ -21,6 +21,7 @@ export default class TransactionPool {
     this.transactions.push(transaction)
   }
 
+  /* unused method */
   validTransactions(): Transaction[] {
     return this.transactions.filter(transaction => {
       if (!Transaction.verifyTransaction(transaction)) {
@@ -33,7 +34,7 @@ export default class TransactionPool {
     })
   }
 
-  transactionExists(transaction: Transaction): Transaction {
+  transactionExists(transaction: Transaction): Transaction | undefined {
     const exists = this.transactions.find(t => t.id === transaction.id)
     return exists
   }
