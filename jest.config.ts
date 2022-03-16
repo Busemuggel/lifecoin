@@ -1,4 +1,4 @@
-import type {Config} from '@jest/types';
+import type {Config} from '@jest/types'
 
 const config: Config.InitialOptions = {
   preset: 'ts-jest',
@@ -9,4 +9,4 @@ const config: Config.InitialOptions = {
   testMatch: ["**/tests/**/*spec.ts"]
 }
 
-export default config;
+export default config
