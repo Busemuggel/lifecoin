@@ -22,6 +22,7 @@ describe('Account', () => {
     account.balance = {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
     }
+    jest.clearAllMocks()
   })
 
   it('should add an adress to account addresses', async () => {
@@ -34,26 +35,35 @@ describe('Account', () => {
   })
 
   it('should transfer an 150 from an adress to another adress', async () => {
+    const spy1 = jest.spyOn(account, 'initialize')
+    const spy2 = jest.spyOn(account, 'increment')
+    const spy3 = jest.spyOn(account, 'decrement')
     account.transfer(account.addresses[0], TEST_ADDRESS, 150)
 
     const result = account.addresses.find(e => e === TEST_ADDRESS)
     const result2 = account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"]
     const result3 = account.balance[TEST_ADDRESS]
 
+    expect(spy1).toHaveBeenCalledTimes(2)
+    expect(spy2).toHaveBeenCalledTimes(1)
+    expect(spy3).toHaveBeenCalledTimes(1)
     expect(result).toStrictEqual(TEST_ADDRESS)
     expect(result2).toBe(INITAL_BALANCE - 150)
     expect(result3).toBe(150)
   })
 
   it('should get the balance of the testAdress', async () => {
+    const spy1 = jest.spyOn(account, 'initialize')
     addressAndBalanceLoader()
 
     const result = account.getBalance(TEST_ADDRESS)
 
+    expect(spy1).toHaveBeenCalledTimes(1)
     expect(result).toBe(TEST_ADDRESS_BALANCE)
   })
 
   it('should send the transfer fee from address 1 to address 2 with a transaction', async () => {
+    const spy1 = jest.spyOn(account, 'transfer')
     addressAndBalanceLoader()
     const fromAdress = "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
     // in future from type address
@@ -62,6 +72,7 @@ describe('Account', () => {
 
     account.transferFee(fromAdress, toValidator, TRANSACTION_FEE)
 
+    expect(spy1).toHaveBeenCalledTimes(1)
     expect(account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"])
       .toBe(INITAL_BALANCE - TEST_ADDRESS_BALANCE - TRANSACTION_FEE)
     expect(account.balance[TEST_ADDRESS]).toBe(TEST_ADDRESS_BALANCE + TRANSACTION_FEE)
