@@ -19,8 +19,8 @@ describe('Block', () => {
   const wallet = new mockedWallet.default(FIRST_LEADER)
 
   beforeEach(() => {
-    block = mockedBlock
     jest.clearAllMocks()
+    block = mockedBlock
   })
 
   it('should check if genesis Block is from type Block', async () => {

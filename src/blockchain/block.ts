@@ -35,7 +35,7 @@ export default class Block {
     const timestamp = Date.now()
     const lastHash = lastBlock.hash
     const hash = Block.hash(timestamp, lastHash, data)
-    const validator = wallet.getPublicKey()    
+    const validator = wallet.getPublicKey()
     const signature = Block.signBlockHash(hash, wallet)
 
     return new Block(timestamp, lastHash, hash, data, validator, signature)

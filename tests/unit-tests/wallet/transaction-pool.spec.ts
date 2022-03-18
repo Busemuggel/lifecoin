@@ -25,7 +25,6 @@ describe('Transaction-Pool', () => {
   })
 
   it('should add a transaction', async () => {
-    
     transactionPool.addTransaction(mockedTransactionOne)
 
     expect(transactionPool.transactions).toEqual([mockedTransactionOne])

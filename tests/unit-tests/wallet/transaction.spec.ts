@@ -12,8 +12,8 @@ describe('Transaction', () => {
   const wallet = new mockedWallet.default(FIRST_LEADER)
 
   beforeEach(() => {
-    wallet.balance = 5000
     jest.clearAllMocks()
+    wallet.balance = 5000
   })
 
   it('should create a new transaction if the balance is less then the amount', async () => {

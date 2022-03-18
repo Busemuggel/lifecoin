@@ -16,13 +16,13 @@ describe('Account', () => {
   }
 
   beforeEach(() => {
+    jest.clearAllMocks()
     account.addresses = [
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
     ]
     account.balance = {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
     }
-    jest.clearAllMocks()
   })
 
   it('should add an adress to account addresses', async () => {
