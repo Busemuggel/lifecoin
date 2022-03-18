@@ -28,28 +28,28 @@ export default class Block {
   }
 
   static genesis(): Block {
-    return new this(0, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
+    return new Block(0, "----", "genesis-hash", [], "genesis-validator", "genesis-signature")
   }
-  
+
   static createBlock(lastBlock: Block, data: Transaction[], wallet: Wallet): Block {
     const timestamp = Date.now()
     const lastHash = lastBlock.hash
     const hash = Block.hash(timestamp, lastHash, data)
-    const validator = wallet.getPublicKey()
-    const signature = this.signBlockHash(hash, wallet)
+    const validator = wallet.getPublicKey()    
+    const signature = Block.signBlockHash(hash, wallet)
 
-    return new this(timestamp, lastHash, hash, data, validator, signature)
+    return new Block(timestamp, lastHash, hash, data, validator, signature)
   }
-  
+
   static hash(timestamp: number, lastHash: string, data: Transaction[]): string {
     return SHA256(`${timestamp}${lastHash}${data}`).toString()
   }
-  
+
   static blockHash(block: Block): string {
     const { timestamp, lastHash, data } = block
     return Block.hash(timestamp, lastHash, data)
   }
-  
+
   static signBlockHash(hash: string, wallet: Wallet): string {
     return wallet.sign(hash)
   }
