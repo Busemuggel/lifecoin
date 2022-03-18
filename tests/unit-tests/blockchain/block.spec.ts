@@ -5,6 +5,7 @@ import Transaction from '../../../src/wallet/transaction'
 import { mockedBlock } from '../../mocks/mocked-block'
 import { mockedTransactionOne, mockedTransactionStake, mockedTransactionTwo } from '../../mocks/mocked-transaction'
 import * as nativeWallet from '../../../src/wallet/wallet'
+import ChainUtil from '../../../src/chain-util'
 
 const mockedWallet = nativeWallet as jest.Mocked<typeof nativeWallet>
 
@@ -19,6 +20,7 @@ describe('Block', () => {
 
   beforeEach(() => {
     block = mockedBlock
+    jest.clearAllMocks()
   })
 
   it('should check if genesis Block is from type Block', async () => {
@@ -28,8 +30,15 @@ describe('Block', () => {
   })
 
   it('should create a block from the last block, a data set of Transactions and a wallet validator', async () => {
+    const spy1 = jest.spyOn(Block, 'hash')
+    const spy2 = jest.spyOn(wallet, 'getPublicKey')
+    const spy3 = jest.spyOn(Block, 'signBlockHash')
+
     const result = Block.createBlock(block, transactions, wallet)
 
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(1)
+    expect(spy3).toHaveBeenCalledTimes(1)
     expect(result).toBeInstanceOf(Block)
   })
 
@@ -40,9 +49,14 @@ describe('Block', () => {
   })
 
   it('should check if a block is valid', async () => {
+    const spy1 = jest.spyOn(ChainUtil, 'verifySignature')
+    const spy2 = jest.spyOn(Block, 'hash')
+
     const result = Block.verifyBlock(block)
 
     expect(result).toBeTruthy
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(1)
   })
 
   it('should check if a leader is valid', async () => {
