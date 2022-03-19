@@ -1,6 +1,8 @@
 import { TRANSACTION_TYPE } from "../../src/config"
 import Block from "../blockchain/block"
 
+export const TEST_HASH: string = '754df1c4ce36b6a20ccf22bfd76537a4c6292fbae504966531a24358e4b2316e'
+
 export const mockedBlock: Block = {
   "timestamp": 1646668608462,
   "lastHash": "genesis-hash",

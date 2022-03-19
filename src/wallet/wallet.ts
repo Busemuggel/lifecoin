@@ -51,5 +51,4 @@ export default class Wallet {
   getPublicKey(): string {
     return this.publicKey
   }
-
 }

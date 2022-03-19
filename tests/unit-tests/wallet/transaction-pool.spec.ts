@@ -1,20 +1,17 @@
 import 'jest'
 import { mockedTransactionOne, mockedTransactionStake, mockedTransactionTwo } from '../../mocks/mocked-transaction'
 import TransactionPool from '../../../src/wallet/transaction-pool'
+import { helpers } from '../../unit-tests/unit-helpers'
 
 describe('Transaction-Pool', () => {
   const transactionPool = new TransactionPool()
-
-  const transactionLoader = (): void => {
-    transactionPool.transactions.push(mockedTransactionOne,mockedTransactionTwo)
-  }
 
   beforeEach(() => {
     transactionPool.transactions = []
   })
 
   it('should check if the threshold is reached', async () => {
-    transactionLoader()
+    helpers.transactionLoader(transactionPool)
 
     const result1 = transactionPool.thresholdReached()
     transactionPool.transactions.push(mockedTransactionStake)
@@ -31,7 +28,7 @@ describe('Transaction-Pool', () => {
   })
 
   it('should check if a transaction exists in the pool', async () => {
-    transactionLoader()
+    helpers.transactionLoader(transactionPool)
     
     const result1 = transactionPool.transactionExists(mockedTransactionOne)
     const result2 = transactionPool.transactionExists(mockedTransactionStake)
@@ -44,7 +41,7 @@ describe('Transaction-Pool', () => {
   })
 
   it('should clear the transaction in the pool', async () => {
-    transactionLoader()
+    helpers.transactionLoader(transactionPool)
 
     transactionPool.clear()
 
