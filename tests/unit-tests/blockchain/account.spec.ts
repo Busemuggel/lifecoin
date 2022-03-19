@@ -1,14 +1,14 @@
 import 'jest'
 import Account from '../../../src/blockchain/account'
 import { INITAL_BALANCE, TRANSACTION_FEE } from '../../../src/config'
-import { TEST_ADDRESS, TEST_ADDRESS_BALANCE } from '../../mocks/mocked-address'
+import { INITIAL_TEST_ADDRESS, TEST_ADDRESS, TEST_ADDRESS_BALANCE } from '../../mocks/mocked-address'
 
 describe('Account', () => {
   const account: Account = new Account()
 
   const addressAndBalanceLoader = (): void => {
     account.addresses = [
-      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf",
+      INITIAL_TEST_ADDRESS,
       TEST_ADDRESS
     ]
     account.balance[Object.keys(account.balance)[0]] = INITAL_BALANCE - TEST_ADDRESS_BALANCE
@@ -18,7 +18,7 @@ describe('Account', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     account.addresses = [
-      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
+      INITIAL_TEST_ADDRESS
     ]
     account.balance = {
       "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": INITAL_BALANCE
@@ -29,8 +29,8 @@ describe('Account', () => {
     account.initialize(TEST_ADDRESS)
 
     expect(account.addresses).toStrictEqual(account.addresses = [
-      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf",
-      "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
+      INITIAL_TEST_ADDRESS,
+      TEST_ADDRESS
     ])
   })
 
@@ -41,7 +41,7 @@ describe('Account', () => {
     account.transfer(account.addresses[0], TEST_ADDRESS, 150)
 
     const result = account.addresses.find(e => e === TEST_ADDRESS)
-    const result2 = account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"]
+    const result2 = account.balance[INITIAL_TEST_ADDRESS]
     const result3 = account.balance[TEST_ADDRESS]
 
     expect(spy1).toHaveBeenCalledTimes(2)
@@ -65,15 +65,15 @@ describe('Account', () => {
   it('should send the transfer fee from address 1 to address 2 with a transaction', async () => {
     const spy1 = jest.spyOn(account, 'transfer')
     addressAndBalanceLoader()
-    const fromAdress = "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"
+    const fromAdress = INITIAL_TEST_ADDRESS
     // in future from type address
-    const toValidator = "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
+    const toValidator = TEST_ADDRESS
     // in future from type validator
 
     account.transferFee(fromAdress, toValidator, TRANSACTION_FEE)
 
     expect(spy1).toHaveBeenCalledTimes(1)
-    expect(account.balance["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"])
+    expect(account.balance[INITIAL_TEST_ADDRESS])
       .toBe(INITAL_BALANCE - TEST_ADDRESS_BALANCE - TRANSACTION_FEE)
     expect(account.balance[TEST_ADDRESS]).toBe(TEST_ADDRESS_BALANCE + TRANSACTION_FEE)
   })

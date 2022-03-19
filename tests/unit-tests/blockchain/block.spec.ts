@@ -1,4 +1,5 @@
 import 'jest'
+import { INITIAL_TEST_ADDRESS } from '../../mocks/mocked-address'
 import { FIRST_LEADER } from '../../../src/config'
 import Block from '../../../src/blockchain/block'
 import Transaction from '../../../src/wallet/transaction'
@@ -60,7 +61,7 @@ describe('Block', () => {
   })
 
   it('should check if a leader is valid', async () => {
-    const leader = '502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf'
+    const leader = INITIAL_TEST_ADDRESS
     const falseLeader = 'asdf'
 
     const result = Block.verifyLeader(block, leader)

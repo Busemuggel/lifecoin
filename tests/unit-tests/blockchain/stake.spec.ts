@@ -1,13 +1,13 @@
 import 'jest'
 import Stake from '../../../src/blockchain/stake'
-import { TEST_ADDRESS, TEST_ADDRESS_2 } from '../../mocks/mocked-address'
+import { INITIAL_TEST_ADDRESS, TEST_ADDRESS, TEST_ADDRESS_2 } from '../../mocks/mocked-address'
 
 describe('Stake', () => {
   const stake: Stake = new Stake()
 
   beforeEach(() => {
     jest.clearAllMocks()
-    stake.addresses = ["502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf"]
+    stake.addresses = [INITIAL_TEST_ADDRESS]
     stake.balance = {"502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf": 0}
   })
 
@@ -15,8 +15,8 @@ describe('Stake', () => {
     stake.initialize(TEST_ADDRESS)
 
     expect(stake.addresses).toStrictEqual(stake.addresses = [
-      "502b5acaba0456d13955ca7b3da57455218ef2126282a631a885d7c5f77cbeaf",
-      "5985a172e5718fee6de7a6a22302394423578449052b280be2e64f2b545163e3"
+      INITIAL_TEST_ADDRESS,
+      TEST_ADDRESS
     ])
   })
 
