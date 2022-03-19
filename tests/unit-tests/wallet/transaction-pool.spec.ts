@@ -1,5 +1,5 @@
 import 'jest'
-import { mockedTransactionOne, mockedTransactionStake, mockedTransactionTwo } from '../../mocks/mocked-transaction'
+import { mockedTransactionOne, mockedTransactionStake } from '../../mocks/mocked-transaction'
 import TransactionPool from '../../../src/wallet/transaction-pool'
 import { helpers } from '../../unit-tests/unit-helpers'
 
